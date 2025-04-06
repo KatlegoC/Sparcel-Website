@@ -40,7 +40,7 @@ export const Services = () => {
             Owner App
           </h2>
 
-          <p className="text-muted-foreground text-xl mt-4 mb-8">
+          <p className="text-white text-xl mt-4 mb-8">
             Simple. Quick. No clutter. Everything you need to handle returns efficiently.
           </p>
 
@@ -52,8 +52,8 @@ export const Services = () => {
                     {icon}
                   </div>
                   <div>
-                    <CardTitle>{title}</CardTitle>
-                    <CardDescription className="text-md mt-2">
+                    <CardTitle className="text-white">{title}</CardTitle>
+                    <CardDescription className="text-white text-md mt-2">
                       {description}
                     </CardDescription>
                   </div>

@@ -4,7 +4,7 @@ export const Cta = () => {
   return (
     <section
       id="cta"
-      className="bg-muted/50 py-12 my-16 sm:my-24"
+      className="bg-[#CC461C]/70 py-12 my-16 sm:my-24"
     >
       <div className="container lg:grid lg:grid-cols-2 place-items-center">
         <div className="lg:col-start-1">
@@ -14,7 +14,7 @@ export const Cta = () => {
           <p className="mt-4 text-xl font-semibold text-white font-poppins">
             Drop Off. Log. Collect. Done.
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-300 font-poppins">
+          <p className="mt-6 text-lg leading-8 text-white font-poppins">
             We turn everyday spaza shops into smart parcel return hubs, cutting costs and making e-commerce returns more accessible in townships and informal areas. No more missed pickups or long waits—just a quick stop at your local shop.
           </p>
         </div>

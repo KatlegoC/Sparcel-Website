@@ -22,7 +22,7 @@ export const Team = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-          <Card className="bg-black/40 border border-white/20 backdrop-blur-sm overflow-hidden">
+          <Card className="bg-[#CC461C]/70 border border-white/20 backdrop-blur-sm overflow-hidden">
             <CardHeader className="text-center relative pb-0 pt-6">
               <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto">
                 <img
@@ -34,7 +34,7 @@ export const Team = () => {
               <CardTitle className="mt-4 text-lg sm:text-xl font-semibold text-white font-poppins">
                 Katlego Tshabangu
               </CardTitle>
-              <CardDescription className="text-gray-300 font-poppins text-sm sm:text-base">
+              <CardDescription className="text-white font-poppins text-sm sm:text-base">
                 Co-Founder
               </CardDescription>
             </CardHeader>
@@ -54,7 +54,7 @@ export const Team = () => {
             </CardFooter>
           </Card>
 
-          <Card className="bg-black/40 border border-white/20 backdrop-blur-sm overflow-hidden">
+          <Card className="bg-[#CC461C]/70 border border-white/20 backdrop-blur-sm overflow-hidden">
             <CardHeader className="text-center relative pb-0 pt-6">
               <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto">
                 <img
@@ -66,7 +66,7 @@ export const Team = () => {
               <CardTitle className="mt-4 text-lg sm:text-xl font-semibold text-white font-poppins">
                 Talent Muzondo
               </CardTitle>
-              <CardDescription className="text-gray-300 font-poppins text-sm sm:text-base">
+              <CardDescription className="text-white font-poppins text-sm sm:text-base">
                 Co-Founder
               </CardDescription>
             </CardHeader>

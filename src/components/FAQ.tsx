@@ -17,7 +17,7 @@ export const FAQ = () => {
             <AccordionItem 
               key={`item-${i + 1}`}
               value={`item-${i + 1}`} 
-              className="border border-white/20 rounded-lg p-2 bg-black/20 backdrop-blur-sm"
+              className="border border-white/20 rounded-lg p-2 bg-[#CC461C]/70 backdrop-blur-sm"
             >
               <AccordionTrigger className="text-lg font-semibold font-poppins text-white hover:text-white/80">
                 {i === 0 && "What is Sparcel?"}
@@ -30,7 +30,7 @@ export const FAQ = () => {
                 {i === 7 && "How can my business partner with Sparcel?"}
                 {i === 8 && "Where is Sparcel currently operating?"}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-300 font-poppins">
+              <AccordionContent className="text-white font-poppins">
                 {i === 0 && "Sparcel is a reverse logistics platform that turns local spaza shops into trusted drop-off points for parcel returns. We make it easy, fast, and cost-effective for people in informal communities to return online purchases."}
                 {i === 1 && (
                   <ul className="list-disc pl-6 space-y-2">
