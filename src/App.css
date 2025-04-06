@@ -70,48 +70,48 @@
 /* *=========== Green theme =========== */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --background: 16 100% 57%;  /* #FF5823 */
+    --foreground: 0 0% 100%;    /* White text for contrast */
+    --card: 16 100% 57%;
+    --card-foreground: 0 0% 100%;
+    --popover: 16 100% 57%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 16 100% 57%;     /* #FF5823 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 16 100% 67%;    /* Lighter orange */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 16 100% 47%;       /* Darker orange */
+    --muted-foreground: 0 0% 100%;
+    --accent: 16 100% 77%;      /* Very light orange */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
+    --border: 16 100% 67%;
+    --input: 16 100% 67%;
+    --ring: 16 100% 57%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
+    --background: 16 100% 57%;  /* #FF5823 */
+    --foreground: 0 0% 100%;
+    --card: 16 100% 47%;
+    --card-foreground: 0 0% 100%;
+    --popover: 16 100% 47%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 16 100% 57%;     /* #FF5823 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 16 100% 37%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 16 100% 27%;
+    --muted-foreground: 0 0% 90%;
+    --accent: 16 100% 67%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.4 71.8% 29.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 16 100% 47%;
+    --input: 16 100% 47%;
+    --ring: 16 100% 57%;
   }
 }
 
@@ -120,6 +120,23 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#FF5823] text-white;
   }
+}
+
+/* Add illuminating effect */
+.illuminating-glow {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255,88,35,0.8) 0%, rgba(255,88,35,0) 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.shadow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,88,35,0.3) 0%, rgba(255,88,35,0) 100%);
+  pointer-events: none;
 }

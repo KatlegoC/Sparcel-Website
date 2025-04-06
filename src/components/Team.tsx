@@ -7,167 +7,86 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Facebook, Instagram, Linkedin } from "lucide-react";
-
-interface TeamProps {
-  imageUrl: string;
-  name: string;
-  position: string;
-  socialNetworks: SociaNetworkslProps[];
-}
-
-interface SociaNetworkslProps {
-  name: string;
-  url: string;
-}
-
-const teamList: TeamProps[] = [
-  {
-    imageUrl: "https://i.pravatar.cc/150?img=35",
-    name: "Emma Smith",
-    position: "Product Manager",
-    socialNetworks: [
-      {
-        name: "Linkedin",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "Facebook",
-        url: "https://www.facebook.com/",
-      },
-      {
-        name: "Instagram",
-        url: "https://www.instagram.com/",
-      },
-    ],
-  },
-  {
-    imageUrl: "https://i.pravatar.cc/150?img=60",
-    name: "John Doe",
-    position: "Tech Lead",
-    socialNetworks: [
-      {
-        name: "Linkedin",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "Facebook",
-        url: "https://www.facebook.com/",
-      },
-      {
-        name: "Instagram",
-        url: "https://www.instagram.com/",
-      },
-    ],
-  },
-  {
-    imageUrl: "https://i.pravatar.cc/150?img=36",
-    name: "Ashley Ross",
-    position: "Frontend Developer",
-    socialNetworks: [
-      {
-        name: "Linkedin",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-
-      {
-        name: "Instagram",
-        url: "https://www.instagram.com/",
-      },
-    ],
-  },
-  {
-    imageUrl: "https://i.pravatar.cc/150?img=17",
-    name: "Bruce Rogers",
-    position: "Backend Developer",
-    socialNetworks: [
-      {
-        name: "Linkedin",
-        url: "https://www.linkedin.com/in/leopoldo-miranda/",
-      },
-      {
-        name: "Facebook",
-        url: "https://www.facebook.com/",
-      },
-    ],
-  },
-];
+import { Linkedin } from "lucide-react";
 
 export const Team = () => {
-  const socialIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Linkedin":
-        return <Linkedin size="20" />;
-
-      case "Facebook":
-        return <Facebook size="20" />;
-
-      case "Instagram":
-        return <Instagram size="20" />;
-    }
-  };
-
   return (
-    <section
-      id="team"
-      className="container py-24 sm:py-32"
-    >
-      <h2 className="text-3xl md:text-4xl font-bold">
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Our Dedicated{" "}
-        </span>
-        Crew
-      </h2>
+    <section id="team" className="container py-8 sm:py-12">
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-3 font-poppins text-white">
+            Meet the Founders
+          </h2>
+          <p className="text-base sm:text-lg text-gray-300 font-poppins max-w-2xl mx-auto">
+            Experienced Product Managers who've transformed township economy through innovative tech solutions
+          </p>
+        </div>
 
-      <p className="mt-4 mb-10 text-xl text-muted-foreground">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-        dolor pariatur sit!
-      </p>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-10">
-        {teamList.map(
-          ({ imageUrl, name, position, socialNetworks }: TeamProps) => (
-            <Card
-              key={name}
-              className="bg-muted/50 relative mt-8 flex flex-col justify-center items-center"
-            >
-              <CardHeader className="mt-8 flex justify-center items-center pb-2">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+          <Card className="bg-black/40 border border-white/20 backdrop-blur-sm overflow-hidden">
+            <CardHeader className="text-center relative pb-0 pt-6">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto">
                 <img
-                  src={imageUrl}
-                  alt={`${name} ${position}`}
-                  className="absolute -top-12 rounded-full w-24 h-24 aspect-square object-cover"
+                  src="/Katlego.png"
+                  alt="Katlego Tshabangu"
+                  className="rounded-full object-cover w-full h-full border-2 border-white/20"
                 />
-                <CardTitle className="text-center">{name}</CardTitle>
-                <CardDescription className="text-primary">
-                  {position}
-                </CardDescription>
-              </CardHeader>
+              </div>
+              <CardTitle className="mt-4 text-lg sm:text-xl font-semibold text-white font-poppins">
+                Katlego Tshabangu
+              </CardTitle>
+              <CardDescription className="text-gray-300 font-poppins text-sm sm:text-base">
+                Co-Founder
+              </CardDescription>
+            </CardHeader>
+            <CardFooter className="justify-center pt-3 pb-6">
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  className: "text-white hover:text-white/80"
+                })}
+              >
+                <Linkedin size="20" />
+              </a>
+            </CardFooter>
+          </Card>
 
-              <CardContent className="text-center pb-2">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-              </CardContent>
-
-              <CardFooter>
-                {socialNetworks.map(({ name, url }: SociaNetworkslProps) => (
-                  <div key={name}>
-                    <a
-                      rel="noreferrer noopener"
-                      href={url}
-                      target="_blank"
-                      className={buttonVariants({
-                        variant: "ghost",
-                        size: "sm",
-                      })}
-                    >
-                      <span className="sr-only">{name} icon</span>
-                      {socialIcon(name)}
-                    </a>
-                  </div>
-                ))}
-              </CardFooter>
-            </Card>
-          )
-        )}
+          <Card className="bg-black/40 border border-white/20 backdrop-blur-sm overflow-hidden">
+            <CardHeader className="text-center relative pb-0 pt-6">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto">
+                <img
+                  src="/Talent.png"
+                  alt="Talent Muzondo"
+                  className="rounded-full object-cover w-full h-full border-2 border-white/20"
+                />
+              </div>
+              <CardTitle className="mt-4 text-lg sm:text-xl font-semibold text-white font-poppins">
+                Talent Muzondo
+              </CardTitle>
+              <CardDescription className="text-gray-300 font-poppins text-sm sm:text-base">
+                Co-Founder
+              </CardDescription>
+            </CardHeader>
+            <CardFooter className="justify-center pt-3 pb-6">
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonVariants({
+                  variant: "ghost",
+                  size: "sm",
+                  className: "text-white hover:text-white/80"
+                })}
+              >
+                <Linkedin size="20" />
+              </a>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </section>
   );

@@ -28,7 +28,7 @@ export const MedalIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-14 fill-primary"
+      className="w-14 fill-[#FF5823]"
     >
       <title>Free Icons</title>
       <g
@@ -109,7 +109,7 @@ export const MapIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-14 fill-primary"
+      className="w-14 fill-[#FF5823]"
     >
       <title>Free Icons</title>
       <g
@@ -186,7 +186,7 @@ export const PlaneIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-14 fill-primary"
+      className="w-14 fill-[#FF5823]"
     >
       <title>Free Icons</title>
       <g
@@ -247,7 +247,7 @@ export const GiftIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-14 fill-primary"
+      className="w-14 fill-[#FF5823]"
     >
       <title>Free Icons</title>
       <g
@@ -348,7 +348,7 @@ export const LightBulbIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-12 fill-primary"
+      className="w-12 fill-[#FF5823]"
     >
       <title>Free Icons</title>
       <g
@@ -420,12 +420,12 @@ export const LightBulbIcon = () => {
   );
 };
 
-export const WalletIcon = () => {
+export const WalletIcon = ({ className = "fill-white" }: { className?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-12 fill-primary"
+      className={`w-12 ${className}`}
     >
       <title>Free Icons</title>
       <g
@@ -518,7 +518,7 @@ export const ChartIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-12 fill-primary"
+      className="w-12 fill-white"
     >
       <title>Free Icons</title>
       <g
@@ -591,7 +591,7 @@ export const MagnifierIcon = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      className="w-12 fill-primary"
+      className="w-12 fill-white"
     >
       <title>Free Icons</title>
       <g
@@ -644,7 +644,7 @@ export const MagnifierIcon = () => {
         />
         <path
           className="cls-1"
-          d="M61.61,26.1q4.2.22,8.4.27c1,0,2-.05,3.06,0,3.61,0,7.21-.08,10.81-.25,1.6-.09,3.2-.25,4.77-.46,1-.07,2-.25,3-.36.5-.06,1-.12,1.51-.2s1-.07,1.53-.11.58,0,.09.31l-1,.61a6.6,6.6,0,0,1-1.54.57c-1,.22-2.06.49-3.1.67s-2.09.3-3.14.4c-2.1.2-4.21.35-6.33.36-2.53,0-5.15.2-7.74.23-2.84,0-5.69,0-8.53-.08l-5.24-.22c-2.65-.13-5.3-.33-7.93-.54-2-.15-4.06-.24-6.09-.47-.45-.06-.89-.09-1.34-.16l-.58-.1-.47-.16a5.7,5.7,0,0,1-.68-.31,2.09,2.09,0,0,1-.41-.32,2,2,0,0,1-.22-.4c-.05-.13-.13-.24-.15-.32-.09-.24.71-.6,1.88-.48,3.5.33,7.22.72,11,1,1.4.11,2.8.21,4.21.29s2.82.15,4.23.21Z"
+          d="M61.61,26.1q4.2.22,8.4.27c1,0,2-.05,3.06,0,3.61,0,7.21-.08,10.81-.25,1.6-.09,3.2-.25,4.77-.46,1-.07,2-.25,3-.36.5-.06,1-.12,1.51-.2s1-.07,1.53-.11.58,0,.09.31l-1,.61a6.6,6.6,0,0,1-1.54.57c-1,.22-2.06.49-3.1.67s-2.09.3-3.14.4c-2.1.2-4.21.35-6.33.36-2.53,0-5.15.2-7.74.23-2.84,0-5.69,0-8.53-.08l-5.24-.22c-2.65-.13-5.3-.33-7.93-.54-2-.15-4-.24-6-.47-.45-.06-.89-.09-1.34-.16l-.58-.1-.47-.16a5.7,5.7,0,0,1-.68-.31,2.09,2.09,0,0,1-.41-.32,2,2,0,0,1-.22-.4c-.05-.13-.13-.24-.15-.32-.09-.24.71-.6,1.88-.48,3.5.33,7.22.72,11,1,1.4.11,2.8.21,4.21.29s2.82.15,4.23.21Z"
         />
         <path
           className="cls-1"
