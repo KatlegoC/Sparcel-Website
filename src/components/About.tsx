@@ -1,4 +1,3 @@
-import { Statistics } from "./Statistics";
 import { PackageCheck, Smartphone, Truck, Bell } from "lucide-react";
 
 export const About = () => {
