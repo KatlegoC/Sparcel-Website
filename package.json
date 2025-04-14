@@ -23,6 +23,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "vercel-build": "tsc --traceResolution && vite build",
+    "type-check": "tsc --noEmit",
+    "check-about": "tsc src/components/About.tsx --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
