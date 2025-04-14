@@ -1,5 +1,3 @@
-import { MedalIcon, MapIcon, PlaneIcon, LightBulbIcon } from "./Icons";
-
 export const About = () => {
   return (
     <section
