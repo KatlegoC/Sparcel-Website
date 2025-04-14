@@ -10,35 +10,35 @@ import { Linkedin } from "lucide-react";
 
 export const Team = () => {
   return (
-    <section id="team" className="container py-8 sm:py-12">
-      <div className="mx-auto max-w-5xl">
+    <section id="team" className="container py-8 sm:py-12 -mt-12">
+      <div className="mx-auto max-w-4xl">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-3 font-poppins text-white">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 font-darker text-white">
             Meet the Founders
           </h2>
-          <p className="text-base sm:text-lg text-gray-300 font-poppins max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-white font-darker max-w-3xl mx-auto">
             Experienced Product Managers who've transformed township economy through innovative tech solutions
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-          <Card className="bg-[#CC461C]/70 border border-white/20 backdrop-blur-sm overflow-hidden">
-            <CardHeader className="text-center relative pb-0 pt-6">
-              <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <Card className="bg-white border border-black rounded-xl overflow-hidden">
+            <CardHeader className="text-center relative pb-0 pt-4">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto">
                 <img
                   src="/Katlego.png"
                   alt="Katlego Tshabangu"
-                  className="rounded-full object-cover w-full h-full border-2 border-white/20"
+                  className="rounded-full object-cover w-full h-full border-2 border-black"
                 />
               </div>
-              <CardTitle className="mt-4 text-lg sm:text-xl font-semibold text-white font-poppins">
+              <CardTitle className="mt-3 text-lg md:text-xl font-bold text-black font-darker">
                 Katlego Tshabangu
               </CardTitle>
-              <CardDescription className="text-white font-poppins text-sm sm:text-base">
+              <CardDescription className="text-black font-darker text-base">
                 Co-Founder
               </CardDescription>
             </CardHeader>
-            <CardFooter className="justify-center pt-3 pb-6">
+            <CardFooter className="justify-center pt-2 pb-4">
               <a
                 href="https://www.linkedin.com/"
                 target="_blank"
@@ -46,31 +46,31 @@ export const Team = () => {
                 className={buttonVariants({
                   variant: "ghost",
                   size: "sm",
-                  className: "text-white hover:text-white/80"
+                  className: "text-black hover:text-black/80"
                 })}
               >
-                <Linkedin size="20" />
+                <Linkedin size="18" />
               </a>
             </CardFooter>
           </Card>
 
-          <Card className="bg-[#CC461C]/70 border border-white/20 backdrop-blur-sm overflow-hidden">
-            <CardHeader className="text-center relative pb-0 pt-6">
-              <div className="w-32 h-32 sm:w-36 sm:h-36 mx-auto">
+          <Card className="bg-white border border-black rounded-xl overflow-hidden">
+            <CardHeader className="text-center relative pb-0 pt-4">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto">
                 <img
                   src="/Talent.png"
                   alt="Talent Muzondo"
-                  className="rounded-full object-cover w-full h-full border-2 border-white/20"
+                  className="rounded-full object-cover w-full h-full border-2 border-black"
                 />
               </div>
-              <CardTitle className="mt-4 text-lg sm:text-xl font-semibold text-white font-poppins">
+              <CardTitle className="mt-3 text-lg md:text-xl font-bold text-black font-darker">
                 Talent Muzondo
               </CardTitle>
-              <CardDescription className="text-white font-poppins text-sm sm:text-base">
+              <CardDescription className="text-black font-darker text-base">
                 Co-Founder
               </CardDescription>
             </CardHeader>
-            <CardFooter className="justify-center pt-3 pb-6">
+            <CardFooter className="justify-center pt-2 pb-4">
               <a
                 href="https://www.linkedin.com/"
                 target="_blank"
@@ -78,10 +78,10 @@ export const Team = () => {
                 className={buttonVariants({
                   variant: "ghost",
                   size: "sm",
-                  className: "text-white hover:text-white/80"
+                  className: "text-black hover:text-black/80"
                 })}
               >
-                <Linkedin size="20" />
+                <Linkedin size="18" />
               </a>
             </CardFooter>
           </Card>

@@ -33,27 +33,27 @@ export const Services = () => {
     <section className="container py-16 sm:py-24">
       <div className="grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center">
         <div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-white font-darker">
             <span className="text-white">
               The Sparcel{" "}
             </span>
             Owner App
           </h2>
 
-          <p className="text-white text-xl mt-4 mb-8">
+          <p className="text-white text-xl mt-4 mb-8 font-darker">
             Simple. Quick. No clutter. Everything you need to handle returns efficiently.
           </p>
 
           <div className="flex flex-col gap-8">
             {serviceList.map(({ icon, title, description }: ServiceProps) => (
-              <Card key={title}>
+              <Card key={title} className="bg-white border-black rounded-xl">
                 <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
-                  <div className="mt-1 bg-primary/20 p-1 rounded-2xl text-white">
+                  <div className="mt-1 text-black">
                     {icon}
                   </div>
                   <div>
-                    <CardTitle className="text-white">{title}</CardTitle>
-                    <CardDescription className="text-white text-md mt-2">
+                    <CardTitle className="text-black font-darker text-xl md:text-2xl font-bold">{title}</CardTitle>
+                    <CardDescription className="text-black text-lg mt-2 font-darker">
                       {description}
                     </CardDescription>
                   </div>
