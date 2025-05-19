@@ -3,16 +3,16 @@ export const Footer = () => {
     <footer className="mt-auto">
       <div className="container py-12 sm:py-16">
         <div className="flex flex-col items-center text-center">
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex items-center gap-0">
             <img
               src="/Vector 104.png"
               alt="Vector"
-              className="h-28 sm:h-40 w-auto -mr-2"
+              className="h-28 sm:h-40 w-auto"
             />
             <img
               src="/SparcelReturnsWhite.png"
               alt="Sparcel Returns"
-              className="h-20 sm:h-24 w-auto"
+              className="h-20 sm:h-24 w-auto -ml-4"
             />
           </div>
 

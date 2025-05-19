@@ -15,6 +15,7 @@ export const Hero = () => {
           alt="Background" 
           className="w-full h-full object-cover"
         />
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
 
@@ -30,7 +31,7 @@ export const Hero = () => {
             <img 
               src="/SparcelReturnsWhite.png"
               alt="Sparcel Returns" 
-              className="h-8 sm:h-12 w-auto -ml-2"
+              className="h-8 sm:h-12 w-auto -ml-4"
             />
           </div>
           <div className="flex items-center gap-4 sm:gap-8">

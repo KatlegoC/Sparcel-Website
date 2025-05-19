@@ -17,20 +17,22 @@ export const FAQ = () => {
             <AccordionItem 
               key={`item-${i + 1}`}
               value={`item-${i + 1}`} 
-              className="border border-black rounded-xl p-2 bg-white"
+              className="border border-black rounded-[24px] p-4 bg-white"
             >
-              <AccordionTrigger className="text-xl md:text-2xl font-bold font-darker text-black hover:text-black/80">
-                {i === 0 && "What is Sparcel?"}
-                {i === 1 && "How does Sparcel work?"}
-                {i === 2 && "Who can use Sparcel?"}
-                {i === 3 && "What do spaza shop owners need to join?"}
-                {i === 4 && "How do shop owners get paid?"}
-                {i === 5 && "Is Sparcel safe?"}
-                {i === 6 && "What types of parcels can be returned?"}
-                {i === 7 && "How can my business partner with Sparcel?"}
-                {i === 8 && "Where is Sparcel currently operating?"}
+              <AccordionTrigger className="text-xl md:text-2xl font-bold font-darker text-black hover:text-black/80 text-center px-4">
+                <div className="flex-1 text-center">
+                  {i === 0 && "What is Sparcel?"}
+                  {i === 1 && "How does Sparcel work?"}
+                  {i === 2 && "Who can use Sparcel?"}
+                  {i === 3 && "What do spaza shop owners need to join?"}
+                  {i === 4 && "How do shop owners get paid?"}
+                  {i === 5 && "Is Sparcel safe?"}
+                  {i === 6 && "What types of parcels can be returned?"}
+                  {i === 7 && "How can my business partner with Sparcel?"}
+                  {i === 8 && "Where is Sparcel currently operating?"}
+                </div>
               </AccordionTrigger>
-              <AccordionContent className="text-black text-lg font-darker mt-2">
+              <AccordionContent className="text-black text-lg font-darker mt-4 px-4">
                 {i === 0 && "Sparcel is a reverse logistics platform that turns local spaza shops into trusted drop-off points for parcel returns. We make it easy, fast, and cost-effective for people in informal communities to return online purchases."}
                 {i === 1 && (
                   <ul className="list-disc pl-6 space-y-2">
