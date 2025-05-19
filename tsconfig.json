@@ -20,10 +20,16 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 
+    /* Path Aliases */
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    /* Additional Options */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
