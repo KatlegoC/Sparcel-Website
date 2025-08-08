@@ -11,9 +11,9 @@ export const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img 
-          src="/background.png"
-          alt="Background" 
-          className="w-full h-full object-cover"
+          src="/image.png"
+          alt="Background Image" 
+          className="w-full h-full object-cover object-bottom"
         />
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/60"></div>
