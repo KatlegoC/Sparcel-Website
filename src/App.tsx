@@ -1,4 +1,5 @@
 import { Hero } from "./components/Hero";
+import { ParcelTracker } from "./components/ParcelTracker";
 import { About } from "./components/About";
 import { Services } from "./components/Services";
 import { HowItWorks } from "./components/HowItWorks";
@@ -13,6 +14,7 @@ export default function App() {
   return (
     <>
       <Hero />
+      <ParcelTracker />
       <About />
       <HowItWorks />
       <Services />

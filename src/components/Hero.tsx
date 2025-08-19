@@ -11,8 +11,8 @@ export const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img 
-          src="/image.png"
-          alt="Background Image" 
+          src="/township layout.png"
+          alt="Township Layout Background" 
           className="w-full h-full object-cover object-bottom"
         />
         {/* Dark overlay */}
@@ -45,13 +45,13 @@ export const Hero = () => {
         <div className="text-center space-y-6 -mt-20 px-4 sm:px-0 max-w-4xl mx-auto">
           <div className="space-y-4">
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
-              Returns Made Simple for the Township Economy
+              Parcel Delivery Made Simple for the Township Economy
             </h1>
             <div className="text-xl sm:text-2xl md:text-3xl text-white/90 font-medium">
-              📦 Reverse logistics, powered by the spaza shops.
+              📦 Reliable logistics, powered by trusted spaza shops.
             </div>
             <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-3xl mx-auto">
-              Sparcel is a smart, community-first solution that transforms local spaza shops into trusted parcel return points for online shoppers—especially in townships and underserved areas where courier access is limited.
+              Sparcel was born out of a simple but powerful idea — making it easy, affordable, and reliable to send and receive parcels in South Africa's townships and rural areas, where traditional delivery networks often struggle. We bridge this gap by turning trusted spaza shops into parcel collection and drop-off points.
             </p>
           </div>
 

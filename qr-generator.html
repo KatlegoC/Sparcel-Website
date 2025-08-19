@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparcel QR Code Generator for Parcel Bags</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #FF5823, #FF8C42);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .business-logic {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FFD700;
+        }
+        .business-logic h3 {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        .business-logic ol {
+            margin-left: 20px;
+        }
+        .business-logic li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        button {
+            background: #FF5823;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #E64A19;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .qr-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        #qrcode {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .preset-urls {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .preset-urls h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .preset-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin: 5px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        .preset-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .download-btn {
+            background: #4CAF50;
+            margin-top: 15px;
+        }
+        .download-btn:hover {
+            background: #45a049;
+        }
+        .url-preview {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Sparcel Parcel Bag QR Code Generator</h1>
+        
+        <div class="business-logic">
+            <h3>🎯 Smart Dual-Mode QR Code System for Parcel Bags</h3>
+            <ol>
+                <li><strong>Stage 1: Customer Configuration</strong> - Customer scans QR code, goes to your website, configures Point A (pickup) and Point B (delivery)</li>
+                <li><strong>Stage 2: Journey Data Storage</strong> - Your system stores the configured journey details linked to that specific QR code</li>
+                <li><strong>Stage 3: Courier Access</strong> - When a courier scans the same QR code, they see all parcel details, pickup/delivery locations, and route information</li>
+                <li><strong>Same QR Code, Different Views</strong> - The QR code intelligently shows customer form OR courier details based on who's scanning</li>
+                <li><strong>Real-time Updates</strong> - Couriers can update parcel status (pickup, in-transit, delivered) and see live routing information</li>
+            </ol>
+            <div style="background: rgba(255, 215, 0, 0.2); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <strong>💡 Key Insight:</strong> The QR code becomes a "smart tag" that shows different information to customers vs couriers. Customers configure the journey, couriers see the complete journey details and can update status.
+            </div>
+        </div>
+        
+        <div class="preset-urls">
+            <h3>🚀 Main Website URLs for Parcel Bag QR Codes</h3>
+            <button class="preset-button" onclick="setUrl('http://localhost:5173/')">Local Development</button>
+            <button class="preset-button" onclick="setUrl('https://sparcel.co.za/')">Production Site</button>
+            <button class="preset-button" onclick="setUrl('https://sparcel.co.za')">Main Domain</button>
+            <button class="preset-button" onclick="setUrl('https://github.com/KatlegoC/Sparcel-Landing-Page')">GitHub Repo</button>
+        </div>
+
+        <div class="input-group">
+            <label for="urlInput">Enter Main Website URL for Parcel Bag QR Code:</label>
+            <input type="url" id="urlInput" placeholder="https://sparcel.co.za/" value="https://sparcel.co.za/">
+            <div class="url-preview" id="urlPreview">
+                <strong>Preview:</strong> https://sparcel.co.za/
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="generateQR()">Generate Parcel Bag QR Code</button>
+            <button onclick="clearQR()">Clear</button>
+        </div>
+
+        <div class="qr-container" id="qrContainer" style="display: none;">
+            <h3>📦 Your Smart Parcel Bag QR Code</h3>
+            <p><em>Print this QR code on your parcel bags for customers to scan and configure their journey!</em></p>
+            <div id="qrcode"></div>
+            <button class="download-btn" onclick="downloadQR()">Download QR Code for Printing</button>
+            
+            <div style="background: rgba(0, 123, 255, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #007bff;">
+                <h4 style="color: #007bff; margin-bottom: 15px;">🧪 How to Test Both Modes:</h4>
+                <div style="text-align: left;">
+                    <p><strong>Customer Mode Test:</strong></p>
+                    <ol style="margin-left: 20px; margin-bottom: 15px;">
+                        <li>Scan the QR code above with your phone</li>
+                        <li>You'll see the customer configuration form</li>
+                        <li>Fill in Point A (pickup) and Point B (delivery)</li>
+                        <li>Submit to configure the journey</li>
+                    </ol>
+                    
+                    <p><strong>Courier Mode Test:</strong></p>
+                    <ol style="margin-left: 20px;">
+                        <li>After configuring a journey, add <code>?parcel=SP123456</code> to the URL</li>
+                        <li>Example: <code>http://localhost:5173/?parcel=SP123456</code></li>
+                        <li>You'll see the courier view with all parcel details</li>
+                        <li>Couriers can update status and see routing information</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setUrl(url) {
+            document.getElementById('urlInput').value = url;
+            updateUrlPreview();
+        }
+
+        function updateUrlPreview() {
+            const url = document.getElementById('urlInput').value;
+            document.getElementById('urlPreview').innerHTML = `<strong>Preview:</strong> ${url}`;
+        }
+
+        function generateQR() {
+            const url = document.getElementById('urlInput').value;
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            // Clear previous QR code
+            document.getElementById('qrcode').innerHTML = '';
+            
+            // Generate new QR code
+            QRCode.toCanvas(document.getElementById('qrcode'), url, {
+                width: 300,
+                margin: 2,
+                color: {
+                    dark: '#FF5823',
+                    light: '#FFFFFF'
+                }
+            }, function (error) {
+                if (error) {
+                    console.error(error);
+                    alert('Error generating QR code');
+                } else {
+                    document.getElementById('qrContainer').style.display = 'block';
+                }
+            });
+        }
+
+        function clearQR() {
+            document.getElementById('qrContainer').style.display = 'none';
+            document.getElementById('qrcode').innerHTML = '';
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = 'sparcel-parcel-bag-qr.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+        }
+
+        // Update URL preview when typing
+        document.getElementById('urlInput').addEventListener('input', updateUrlPreview);
+
+        // Generate QR code on page load for production site
+        window.onload = function() {
+            generateQR();
+        };
+    </script>
+</body>
+</html> 
