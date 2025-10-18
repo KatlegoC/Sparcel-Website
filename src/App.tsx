@@ -8,7 +8,6 @@ import { Footer } from "./components/Footer";
 import { Cta } from "./components/Cta";
 import { FAQ } from "./components/FAQ";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { useState } from "react";
 import "./App.css";
 
 export default function App() {
