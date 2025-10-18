@@ -11,12 +11,9 @@ export const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img 
-          src="/image copy 2.png"
-          alt="Township Aerial View Background" 
-          className="w-full h-full object-cover"
-          style={{
-            objectPosition: '75% center'
-          }}
+          src="/Parcel Spaza.JPG"
+          alt="Spaza Shop Background" 
+          className="w-full h-full object-cover object-[25%_30%] md:object-[55%_30%]"
         />
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/60"></div>
@@ -45,7 +42,7 @@ export const Hero = () => {
       </div>
       
       <div className="container relative grid place-items-start min-h-[calc(100vh-8rem)]">
-        <div className="text-center md:text-left space-y-6 mt-48 px-4 sm:px-0 max-w-4xl w-full">
+        <div className="text-center md:text-left space-y-6 mt-32 md:mt-48 px-4 sm:px-0 max-w-4xl w-full">
           <div className="space-y-4 max-w-2xl">
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
               Parcel Delivery Made Simple

@@ -405,7 +405,9 @@ export const ParcelTracker = () => {
       //   };
       // }
 
-      return null;
+      // Fallback to localStorage if Supabase is commented out
+      const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+      return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
     } catch (error) {
       console.error('Error reading journey data:', error);
       // Fallback to localStorage
@@ -1062,7 +1064,7 @@ export const ParcelTracker = () => {
         )}
 
         {/* How It Works Section */}
-        <div className="mb-12 sm:mb-16 animate-slide-up">
+        <div className="mb-12 sm:mb-16 animate-slide-up px-4 sm:px-0">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-12">How It Works</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg">
