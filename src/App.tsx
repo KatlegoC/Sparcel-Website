@@ -11,32 +11,6 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import "./App.css";
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'main' | 'admin' | 'test' | 'preview' | 'setup'>('main');
-
-  // Check URL parameters for view switching
-  const urlParams = new URLSearchParams(window.location.search);
-  const view = urlParams.get('view') as 'main' | 'admin' | 'test' | 'preview' | 'setup';
-  
-  if (view && view !== currentView) {
-    setCurrentView(view);
-  }
-
-  if (currentView === 'admin') {
-    return <AdminPortalPreview />;
-  }
-
-  if (currentView === 'test') {
-    return <QRCodeTest />;
-  }
-
-  if (currentView === 'preview') {
-    return <AdminPortalPreview />;
-  }
-
-  if (currentView === 'setup') {
-    return <SupabaseSetupChecker />;
-  }
-
   return (
     <>
       <Hero />
