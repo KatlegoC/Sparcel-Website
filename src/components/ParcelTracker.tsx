@@ -5,9 +5,9 @@ import { Input } from './ui/input';
 
 import { MapPinIcon, UserIcon, PhoneIcon, TruckIcon, CheckCircleIcon, BoxIcon } from 'lucide-react';
 import { LocationSelector } from './LocationSelector';
-import { supabase } from '@/lib/supabase';
-import { sendBookingConfirmationEmails } from '@/lib/emailService';
-import { markQRCodeAsUsed } from '@/lib/qrCodeService';
+// import { supabase } from '@/lib/supabase';
+// import { sendBookingConfirmationEmails } from '@/lib/emailService';
+// import { markQRCodeAsUsed } from '@/lib/qrCodeService';
 
 interface ParcelJourney {
   bag_id: string;
@@ -770,7 +770,7 @@ export const ParcelTracker = () => {
       // Mark QR code as used if it exists
       if (currentQRCode) {
         try {
-          await markQRCodeAsUsed(currentQRCode);
+          // await markQRCodeAsUsed(currentQRCode);
           console.log('✅ QR code marked as used:', currentQRCode);
         } catch (error) {
           console.warn('⚠️ Failed to mark QR code as used:', error);
@@ -791,32 +791,32 @@ export const ParcelTracker = () => {
       // Send confirmation emails to customer and recipient
       console.log('📧 Sending confirmation emails...');
       try {
-        await sendBookingConfirmationEmails({
-          bag_id: bagId,
-          tracking_number: journeyData.tracking_number,
-          courier_company: journeyData.courier_company,
-          tracking_link: bookingResponse.link || undefined,
-          pickup_location: {
-            name: fromLocation?.name || 'Pickup Location',
-            address: fromLocation?.address || fromLocation?.formatted_address || 'Address not available',
-          },
-          delivery_location: {
-            name: toLocation?.name || 'Delivery Location',
-            address: toLocation?.address || toLocation?.formatted_address || 'Address not available',
-          },
-          customer: {
-            name: customerName,
-            email: customerEmail,
-            phone: customerPhone,
-          },
-          recipient: {
-            name: recipientName,
-            email: recipientEmail,
-            phone: recipientPhone,
-          },
-          parcel_size: parcelSize,
-          number_of_boxes: numberOfBoxes,
-        });
+        // await sendBookingConfirmationEmails({
+        //   bag_id: bagId,
+        //   tracking_number: journeyData.tracking_number,
+        //   courier_company: journeyData.courier_company,
+        //   tracking_link: bookingResponse.link || undefined,
+        //   pickup_location: {
+        //     name: fromLocation?.name || 'Pickup Location',
+        //     address: fromLocation?.address || fromLocation?.formatted_address || 'Address not available',
+        //   },
+        //   delivery_location: {
+        //     name: toLocation?.name || 'Delivery Location',
+        //     address: toLocation?.address || toLocation?.formatted_address || 'Address not available',
+        //   },
+        //   customer: {
+        //     name: customerName,
+        //     email: customerEmail,
+        //     phone: customerPhone,
+        //   },
+        //   recipient: {
+        //     name: recipientName,
+        //     email: recipientEmail,
+        //     phone: recipientPhone,
+        //   },
+        //   parcel_size: parcelSize,
+        //   number_of_boxes: numberOfBoxes,
+        // });
         console.log('✅ Confirmation emails sent successfully');
       } catch (emailError) {
         console.error('⚠️ Failed to send confirmation emails:', emailError);
