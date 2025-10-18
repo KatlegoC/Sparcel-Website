@@ -59,3 +59,4 @@ npm run dev
 ```
 # Deployment ready
 # Sparcel Landing Page - Production Ready
+# Deployed with correct GitHub profile (KatlegoC)
