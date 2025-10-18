@@ -186,17 +186,14 @@ export function ParcelMap() {
   const onMapLoad = (map: google.maps.Map) => {
     mapRef.current = map;
     
-    // Create markers
+    // Create markers with custom Marker.png image
     const markers = parcelPoints.map((point) => {
       const marker = new google.maps.Marker({
         position: { lat: point.lat, lng: point.lng },
         icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 10,
-          fillColor: '#FF5823',
-          fillOpacity: 1,
-          strokeColor: '#ffffff',
-          strokeWeight: 2,
+          url: '/Marker.png',
+          scaledSize: new google.maps.Size(40, 40),
+          anchor: new google.maps.Point(20, 35), // Anchor slightly above bottom for better upright positioning
         },
         title: point.name,
       });
@@ -210,7 +207,7 @@ export function ParcelMap() {
 
     markersRef.current = markers;
 
-    // Initialize MarkerClusterer
+    // Initialize MarkerClusterer with custom cluster icon
     const clusterer = new MarkerClusterer({
       map,
       markers,
@@ -220,16 +217,16 @@ export function ParcelMap() {
             position,
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
-              scale: 20,
+              scale: 28,
               fillColor: '#FF5823',
-              fillOpacity: 0.9,
+              fillOpacity: 0.95,
               strokeColor: '#ffffff',
-              strokeWeight: 2,
+              strokeWeight: 3,
             },
             label: {
               text: String(count),
               color: '#ffffff',
-              fontSize: '12px',
+              fontSize: '14px',
               fontWeight: 'bold',
             },
           });

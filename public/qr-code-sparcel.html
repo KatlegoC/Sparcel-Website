@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparcel QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #FF5823 0%, #FF6B35 50%, #FF7A47 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .qr-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+        .qr-code {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        .url-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .instructions {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .download-btn {
+            background: white;
+            color: #FF5823;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        .parcel-id {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Sparcel QR Code Generator</h1>
+        
+        <div class="qr-section">
+            <h2>Parcel Tracking QR Code</h2>
+            <div class="parcel-id">Parcel ID: SP123456</div>
+            <div class="url-display">
+                http://localhost:5173/?parcel=SP123456
+            </div>
+            <div class="qr-code" id="qr-code"></div>
+            <br>
+            <button class="download-btn" onclick="downloadQR()">Download QR Code</button>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 How to Use This QR Code:</h3>
+            <ol>
+                <li><strong>Print this QR code</strong> and paste it on a parcel bag</li>
+                <li><strong>Customer scans QR code</strong> → Goes to your site</li>
+                <li><strong>System shows "Configure Parcel Journey"</strong> form</li>
+                <li><strong>Customer fills out details</strong> and submits</li>
+                <li><strong>Courier/Shop scans same QR code</strong> → Shows journey details</li>
+            </ol>
+            
+            <h3>🔧 Testing Instructions:</h3>
+            <ol>
+                <li>Make sure your development server is running: <code>npm run dev</code></li>
+                <li>Scan this QR code with your phone</li>
+                <li>You should land on: <code>http://localhost:5173/?parcel=SP123456</code></li>
+                <li>Test the complete flow: Configure → Create → Courier View</li>
+            </ol>
+        </div>
+
+        <div class="qr-section">
+            <h2>Alternative Parcel IDs</h2>
+            <p>Generate QR codes for different parcel IDs:</p>
+            <button class="download-btn" onclick="generateNewQR('SP789012')">Generate SP789012</button>
+            <button class="download-btn" onclick="generateNewQR('SP345678')">Generate SP345678</button>
+            <button class="download-btn" onclick="generateNewQR('SP901234')">Generate SP901234</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate initial QR code
+        function generateQR(parcelId) {
+            const url = `http://localhost:5173/?parcel=${parcelId}`;
+            const qrContainer = document.getElementById('qr-code');
+            qrContainer.innerHTML = '';
+            
+            QRCode.toCanvas(qrContainer, url, {
+                width: 300,
+                height: 300,
+                margin: 2,
+                color: {
+                    dark: '#FF5823',
+                    light: '#FFFFFF'
+                }
+            }, function (error) {
+                if (error) console.error(error);
+            });
+            
+            // Update URL display
+            document.querySelector('.url-display').textContent = url;
+            document.querySelector('.parcel-id').textContent = `Parcel ID: ${parcelId}`;
+        }
+
+        // Generate new QR code with different ID
+        function generateNewQR(parcelId) {
+            generateQR(parcelId);
+        }
+
+        // Download QR code
+        function downloadQR() {
+            const canvas = document.querySelector('#qr-code canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = 'sparcel-qr-code.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+        }
+
+        // Initialize with default QR code
+        generateQR('SP123456');
+    </script>
+</body>
+</html> 

@@ -11,9 +11,12 @@ export const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img 
-          src="/township layout.png"
-          alt="Township Layout Background" 
-          className="w-full h-full object-cover object-bottom"
+          src="/image copy 2.png"
+          alt="Township Aerial View Background" 
+          className="w-full h-full object-cover"
+          style={{
+            objectPosition: '75% center'
+          }}
         />
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/60"></div>
@@ -29,7 +32,7 @@ export const Hero = () => {
               className="h-20 sm:h-32 w-auto"
             />
             <img 
-              src="/SparcelReturnsWhite.png"
+              src="/Sparcel copy.png"
               alt="Sparcel Returns" 
               className="h-8 sm:h-12 w-auto -ml-4"
             />
@@ -41,21 +44,24 @@ export const Hero = () => {
         </div>
       </div>
       
-      <div className="container relative grid place-items-center min-h-[calc(100vh-8rem)]">
-        <div className="text-center space-y-6 -mt-20 px-4 sm:px-0 max-w-4xl mx-auto">
-          <div className="space-y-4">
+      <div className="container relative grid place-items-start min-h-[calc(100vh-8rem)]">
+        <div className="text-center md:text-left space-y-6 mt-48 px-4 sm:px-0 max-w-4xl w-full">
+          <div className="space-y-4 max-w-2xl">
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
-              Parcel Delivery Made Simple for the Township Economy
+              Parcel Delivery Made Simple
             </h1>
             <div className="text-xl sm:text-2xl md:text-3xl text-white/90 font-medium">
-              📦 Reliable logistics, powered by trusted spaza shops.
+              Reliable logistics, powered by trusted spaza shops.
             </div>
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed max-w-3xl mx-auto">
-              Sparcel was born out of a simple but powerful idea — making it easy, affordable, and reliable to send and receive parcels in South Africa's townships and rural areas, where traditional delivery networks often struggle. We bridge this gap by turning trusted spaza shops into parcel collection and drop-off points.
+            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed">
+              Sparcel makes it easy and reliable to send and receive parcels in townships and rural areas.
+            </p>
+            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed">
+              We partner with local spaza shops to bring delivery and collection points closer to you.
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
+          <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-8">
             <Button 
               className="w-full md:w-[300px] bg-white hover:bg-white/90 text-gray-900 px-4 sm:px-8 py-3 flex items-center justify-center font-bold text-sm sm:text-base"
               onClick={() => setIsMapOpen(true)}

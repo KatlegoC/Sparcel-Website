@@ -44,7 +44,7 @@ export const HowItWorks = () => {
       <div 
         className="absolute inset-0 -z-10"
         style={{
-          backgroundImage: 'url("/image copy 2.png")',
+          backgroundImage: 'url("/township layout.png")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

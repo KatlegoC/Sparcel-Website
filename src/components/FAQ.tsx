@@ -33,27 +33,27 @@ export const FAQ = () => {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="text-black text-lg font-darker mt-4 px-4">
-                {i === 0 && "Sparcel is a reverse logistics platform that turns local spaza shops into trusted drop-off points for parcel returns. We make it easy, fast, and cost-effective for people in informal communities to return online purchases."}
+                {i === 0 && "Sparcel is a parcel delivery platform that turns local spaza shops into trusted drop-off and collection points for parcels. We make it easy, fast, and cost-effective for people in townships and rural areas to send and receive parcels."}
                 {i === 1 && (
                   <ul className="list-disc pl-6 space-y-2">
                     <li>A customer drops off their parcel at a registered spaza shop.</li>
-                    <li>The shop logs the return using our simple mobile app.</li>
-                    <li>The courier is notified and collects the parcel.</li>
+                    <li>The shop logs the parcel using our simple mobile app.</li>
+                    <li>The courier is notified and collects the parcel for delivery.</li>
                     <li>Everyone involved is notified throughout the process.</li>
                   </ul>
                 )}
                 {i === 2 && (
                   <ul className="list-disc pl-6 space-y-2">
-                    <li>Customers returning online purchases from participating retailers.</li>
+                    <li>Customers sending or receiving parcels in townships and rural areas.</li>
                     <li>Spaza shop owners looking to earn extra income.</li>
-                    <li>E-commerce and logistics companies wanting to reduce return costs and improve accessibility in hard-to-reach areas.</li>
+                    <li>E-commerce and logistics companies wanting to reduce delivery costs and improve accessibility in hard-to-reach areas.</li>
                   </ul>
                 )}
                 {i === 3 && "Just a smartphone, a secure space to store a few parcels, and a willingness to learn. We provide the app, training, and support to get started."}
-                {i === 4 && "Spaza partners earn a fee per return — typically R10 to R20, depending on parcel size and return volume. Payments are made directly to their preferred payout method."}
-                {i === 5 && "Yes. We focus on compact, low-risk items like routers or small parcels. Shop owners receive guidance on handling and safety, and each return is verified and tracked in the system."}
-                {i === 6 && "Currently, we focus on small to medium packages (like routers or e-commerce products under 10kg). We're expanding soon to include more product types."}
-                {i === 7 && "Simple! Just Request a Demo or Contact Us and we'll show you how Sparcel can plug into your existing return flows to cut costs and improve reach."}
+                {i === 4 && "Spaza partners earn a fee per parcel — typically R10 to R20, depending on parcel size and volume. Payments are made directly to their preferred payout method."}
+                {i === 5 && "Yes. We focus on compact, low-risk items like routers or small parcels. Shop owners receive guidance on handling and safety, and each parcel is verified and tracked in the system."}
+                {i === 6 && "Currently, we focus on small to medium packages (under 10kg). We're expanding soon to include more product types and sizes."}
+                {i === 7 && "Simple! Just Request a Demo or Contact Us and we'll show you how Sparcel can plug into your existing delivery flows to cut costs and improve reach."}
                 {i === 8 && "We're rolling out in Gauteng and Cape Town townships first, with plans to expand nationwide as we onboard more shop partners and logistics providers."}
               </AccordionContent>
             </AccordionItem>

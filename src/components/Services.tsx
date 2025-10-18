@@ -41,25 +41,51 @@ export const Services = () => {
           </h2>
 
           <p className="text-white text-xl mt-4 mb-8 font-darker">
-            Simple. Quick. No clutter. Everything you need to handle returns efficiently.
+            Simple. Quick. No clutter. Everything you need to manage parcels with ease.
           </p>
 
           <div className="flex flex-col gap-8">
-            {serviceList.map(({ icon, title, description }: ServiceProps) => (
-              <Card key={title} className="bg-white border-black rounded-xl">
-                <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
-                  <div className="mt-1 text-black">
-                    {icon}
-                  </div>
-                  <div>
-                    <CardTitle className="text-black font-darker text-xl md:text-2xl font-bold">{title}</CardTitle>
-                    <CardDescription className="text-black text-lg mt-2 font-darker">
-                      {description}
-                    </CardDescription>
-                  </div>
-                </CardHeader>
-              </Card>
-            ))}
+            <Card className="bg-white border-black rounded-xl">
+              <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
+                <div className="mt-1 text-black">
+                  <ChartIcon />
+                </div>
+                <div>
+                  <CardTitle className="text-black font-darker text-xl md:text-2xl font-bold">Log & Scan Parcels</CardTitle>
+                  <CardDescription className="text-black text-lg mt-2 font-darker">
+                    Easily record parcel details and scan QR codes with a simple, user-friendly interface. No complicated steps — just fast, reliable parcel handling.
+                  </CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white border-black rounded-xl">
+              <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
+                <div className="mt-1 text-black">
+                  <MagnifierIcon />
+                </div>
+                <div>
+                  <CardTitle className="text-black font-darker text-xl md:text-2xl font-bold">Upload & Track</CardTitle>
+                  <CardDescription className="text-black text-lg mt-2 font-darker">
+                    Upload customer info and parcel images in seconds. Keep track of all parcels — incoming, outgoing, or awaiting pickup — and trigger courier collections when ready.
+                  </CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white border-black rounded-xl">
+              <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
+                <div className="mt-1 text-black">
+                  <WalletIcon />
+                </div>
+                <div>
+                  <CardTitle className="text-black font-darker text-xl md:text-2xl font-bold">Earn Per Parcel</CardTitle>
+                  <CardDescription className="text-black text-lg mt-2 font-darker">
+                    Turn your spaza shop into a trusted delivery and collection point. Handle parcels for your community while growing your business.
+                  </CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
           </div>
         </div>
 

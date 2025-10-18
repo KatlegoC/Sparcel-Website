@@ -15,8 +15,11 @@ export interface ParcelJourneyDB {
   bag_id: string
   customer_name: string | null
   customer_phone: string | null
+  customer_email: string | null
+  customer_id_number: string | null
   recipient_name: string | null
   recipient_phone: string | null
+  recipient_email: string | null
   from_location: any
   to_location: any
   parcel_size: string | null

@@ -10,7 +10,7 @@ export const Footer = () => {
               className="h-28 sm:h-40 w-auto"
             />
             <img
-              src="/SparcelReturnsWhite.png"
+              src="/Sparcel copy.png"
               alt="Sparcel Returns"
               className="h-20 sm:h-24 w-auto -ml-4"
             />

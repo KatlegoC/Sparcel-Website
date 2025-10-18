@@ -9,13 +9,13 @@ export const Cta = () => {
       <div className="container lg:grid lg:grid-cols-2 place-items-center">
         <div className="lg:col-start-1">
           <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl font-poppins">
-            Simplifying Returns in Underserved Communities
+            Simplifying Parcel Delivery in Underserved Communities
           </h2>
           <p className="mt-4 text-xl font-semibold text-black font-poppins">
             Drop Off. Log. Collect. Done.
           </p>
           <p className="mt-6 text-lg leading-8 text-black font-poppins">
-            We turn everyday spaza shops into smart parcel return hubs, cutting costs and making e-commerce returns more accessible in townships and informal areas. No more missed pickups or long waits—just a quick stop at your local shop.
+            We turn everyday spaza shops into smart parcel delivery hubs, cutting costs and making parcel delivery more accessible in townships and informal areas. No more missed pickups or long waits—just a quick stop at your local shop.
           </p>
         </div>
 
