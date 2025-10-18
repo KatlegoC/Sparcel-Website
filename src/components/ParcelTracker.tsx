@@ -372,38 +372,38 @@ export const ParcelTracker = () => {
   const getJourneyByQRCode = async (qrCode: string): Promise<ParcelJourney | null> => {
     try {
       // Try Supabase first
-      const { data, error } = await supabase
-        .from('parcel_journeys')
-        .select('*')
-        .eq('bag_id', qrCode)
-        .single();
+      // const { data, error } = await supabase
+      //   .from('parcel_journeys')
+      //   .select('*')
+      //   .eq('bag_id', qrCode)
+      //   .single();
 
-      if (error) {
-        console.log('Supabase query failed, falling back to localStorage:', error.message);
-        // Fallback to localStorage
-        const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
-        return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
-      }
+      // if (error) {
+      //   console.log('Supabase query failed, falling back to localStorage:', error.message);
+      //   // Fallback to localStorage
+      //   const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+      //   return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
+      // }
 
-      if (data) {
-        // Convert Supabase data to local format
-        return {
-          bag_id: data.bag_id,
-          customer_name: data.customer_name || '',
-          customer_phone: data.customer_phone || '',
-          customer_email: data.customer_email || '',
-          customer_id_number: data.customer_id_number || '',
-          recipient_name: data.recipient_name || '',
-          recipient_phone: data.recipient_phone || '',
-          recipient_email: data.recipient_email || '',
-          from_location: data.from_location,
-          to_location: data.to_location,
-          parcel_size: data.parcel_size || '',
-          number_of_boxes: data.number_of_boxes || 1,
-          special_instructions: data.special_instructions || '',
-          status: data.status
-        };
-      }
+      // if (data) {
+      //   // Convert Supabase data to local format
+      //   return {
+      //     bag_id: data.bag_id,
+      //     customer_name: data.customer_name || '',
+      //     customer_phone: data.customer_phone || '',
+      //     customer_email: data.customer_email || '',
+      //     customer_id_number: data.customer_id_number || '',
+      //     recipient_name: data.recipient_name || '',
+      //     recipient_phone: data.recipient_phone || '',
+      //     recipient_email: data.recipient_email || '',
+      //     from_location: data.from_location,
+      //     to_location: data.to_location,
+      //     parcel_size: data.parcel_size || '',
+      //     number_of_boxes: data.number_of_boxes || 1,
+      //     special_instructions: data.special_instructions || '',
+      //     status: data.status
+      //   };
+      // }
 
       return null;
     } catch (error) {
@@ -423,55 +423,51 @@ export const ParcelTracker = () => {
   const saveJourneyToStorage = async (journey: ParcelJourney) => {
     try {
       // Try Supabase first
-      const { data, error } = await supabase
-        .from('parcel_journeys')
-        .upsert({
-          bag_id: journey.bag_id,
-          customer_name: journey.customer_name,
-          customer_phone: journey.customer_phone,
-          customer_email: journey.customer_email,
-          customer_id_number: journey.customer_id_number,
-          recipient_name: journey.recipient_name,
-          recipient_phone: journey.recipient_phone,
-          recipient_email: journey.recipient_email,
-          from_location: journey.from_location,
-          to_location: journey.to_location,
-          parcel_size: journey.parcel_size,
-          number_of_boxes: journey.number_of_boxes,
-          special_instructions: journey.special_instructions,
-          status: journey.status,
-          booking_confirmation: journey.booking_confirmation,
-          tracking_number: journey.tracking_number,
-          booking_status: journey.booking_status,
-          courier_company: journey.courier_company,
-          oid: journey.booking_confirmation?.oid,
-          business_key: journey.booking_confirmation?.businessKey,
-          track_no: journey.booking_confirmation?.trackNo,
-          tracking_link: journey.booking_confirmation?.link,
-          booking_message: journey.booking_confirmation?.message,
-          booking_status_code: journey.booking_confirmation?.statusCode
-        }, {
-          onConflict: 'bag_id'
-        });
+      // const { data, error } = await supabase
+      //   .from('parcel_journeys')
+      //   .upsert({
+      //     bag_id: journey.bag_id,
+      //     customer_name: journey.customer_name,
+      //     customer_phone: journey.customer_phone,
+      //     customer_email: journey.customer_email,
+      //     customer_id_number: journey.customer_id_number,
+      //     recipient_name: journey.recipient_name,
+      //     recipient_phone: journey.recipient_phone,
+      //     recipient_email: journey.recipient_email,
+      //     from_location: journey.from_location,
+      //     to_location: journey.to_location,
+      //     parcel_size: journey.parcel_size,
+      //     number_of_boxes: journey.number_of_boxes,
+      //     special_instructions: journey.special_instructions,
+      //     status: journey.status,
+      //     booking_confirmation: journey.booking_confirmation,
+      //     tracking_number: journey.tracking_number,
+      //     booking_status: journey.booking_status,
+      //     courier_company: journey.courier_company,
+      //     oid: journey.booking_confirmation?.oid,
+      //     business_key: journey.booking_confirmation?.businessKey,
+      //     track_no: journey.booking_confirmation?.trackNo,
+      //     tracking_link: journey.booking_confirmation?.link,
+      //     booking_message: journey.booking_confirmation?.message,
+      //     booking_status_code: journey.booking_confirmation?.statusCode
+      //   }, {
+      //     onConflict: 'bag_id'
+      //   });
 
-      if (error) {
-        console.log('Supabase save failed, falling back to localStorage:', error.message);
-        // Fallback to localStorage
-        const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
-        const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
-        
-        if (existingIndex >= 0) {
-          existingJourneys[existingIndex] = journey;
-          console.log('Updated existing journey in localStorage for bag ID:', journey.bag_id);
-        } else {
-          existingJourneys.push(journey);
-          console.log('Added new journey to localStorage for bag ID:', journey.bag_id);
-        }
-        
-        localStorage.setItem('parcelJourneys', JSON.stringify(existingJourneys));
+      // Always use localStorage fallback since Supabase is commented out
+      const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+      const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
+      
+      if (existingIndex >= 0) {
+        existingJourneys[existingIndex] = journey;
+        console.log('Updated existing journey in localStorage for bag ID:', journey.bag_id);
       } else {
-        console.log('Successfully saved journey to Supabase for bag ID:', journey.bag_id);
+        existingJourneys.push(journey);
+        console.log('Added new journey to localStorage for bag ID:', journey.bag_id);
       }
+      
+      localStorage.setItem('parcelJourneys', JSON.stringify(existingJourneys));
+      console.log('Successfully saved journey to localStorage for bag ID:', journey.bag_id);
     } catch (error) {
       console.error('Error saving journey:', error);
       // Fallback to localStorage
