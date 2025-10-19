@@ -7,7 +7,7 @@ import { Badge } from './ui/badge';
 import { Input } from './ui/input';
 import { ArrowLeft, MapPin, Clock, Star, Search, Loader2 } from 'lucide-react';
 
-const libraries = ['places'];
+const libraries: ('places')[] = ['places'];
 
 const mapContainerStyle = {
   width: '100%',
