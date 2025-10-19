@@ -342,9 +342,10 @@ export const SparcelPoints = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row h-[calc(100vh-120px)] md:h-[calc(100vh-140px)]">
-        {/* Sidebar - Hidden on mobile, shown on desktop */}
-        <div className="hidden lg:block w-96 bg-white/95 backdrop-blur-sm shadow-lg overflow-y-auto border-r border-orange-200">
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex h-[calc(100vh-120px)]">
+        {/* Sidebar - Desktop only */}
+        <div className="w-96 bg-white/95 backdrop-blur-sm shadow-lg overflow-y-auto border-r border-orange-200">
           <div className="p-6 space-y-6">
             {/* Search */}
             <div className="relative">
@@ -423,31 +424,8 @@ export const SparcelPoints = () => {
           </div>
         </div>
 
-        {/* Mobile Search Bar - Only visible on mobile */}
-        <div className="lg:hidden bg-white/95 backdrop-blur-sm border-b border-orange-200 p-4">
-          <div className="relative">
-            <Input
-              id="search-box-mobile"
-              type="text"
-              placeholder="Search for a location in Cape Town"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              className="pl-12 bg-white border-gray-300 focus:ring-2 focus:ring-[#FF5823] focus:border-[#FF5823] rounded-xl h-12 text-gray-700 placeholder:text-gray-500"
-            />
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-          </div>
-          <div className="flex items-center justify-between mt-3">
-            <div className="text-sm font-medium text-gray-700">
-              {filteredPoints.length} parcel point{filteredPoints.length !== 1 ? 's' : ''} found
-            </div>
-            <Badge variant="outline" className="border-gray-200 text-gray-700">
-              Cape Town
-            </Badge>
-          </div>
-        </div>
-
-        {/* Map */}
-        <div className="flex-1 relative h-[60vh] lg:h-auto">
+        {/* Map - Desktop */}
+        <div className="flex-1 relative">
           <GoogleMap
             mapContainerStyle={{
               width: '100%',
@@ -478,8 +456,8 @@ export const SparcelPoints = () => {
                 position={{ lat: selectedPoint.lat, lng: selectedPoint.lng }}
                 onCloseClick={() => setSelectedPoint(null)}
               >
-                <div className="min-w-[200px] md:min-w-[250px] p-3 md:p-4">
-                  <h3 className="text-base md:text-lg font-bold text-[#FF5823] mb-2 md:mb-3">
+                <div className="min-w-[250px] p-4">
+                  <h3 className="text-lg font-bold text-[#FF5823] mb-3">
                     {selectedPoint.name}
                   </h3>
                   <div className="text-sm text-gray-600 space-y-2">
@@ -501,8 +479,8 @@ export const SparcelPoints = () => {
             )}
           </GoogleMap>
           
-          {/* Map Overlay Info - Hidden on mobile */}
-          <div className="hidden md:block absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200">
+          {/* Map Overlay Info */}
+          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200">
             <div className="text-sm text-gray-600">
               <div className="font-medium text-gray-900 mb-1">Map Legend</div>
               <div className="space-y-1">
@@ -518,9 +496,91 @@ export const SparcelPoints = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Points List - Only visible on mobile, below map */}
-        <div className="lg:hidden bg-white/95 backdrop-blur-sm border-t border-orange-200 max-h-[40vh] overflow-y-auto">
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        {/* Mobile Search Bar */}
+        <div className="bg-white/95 backdrop-blur-sm border-b border-orange-200 p-4 sticky top-0 z-10">
+          <div className="relative">
+            <Input
+              id="search-box-mobile"
+              type="text"
+              placeholder="Search for a location in Cape Town"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="pl-12 bg-white border-gray-300 focus:ring-2 focus:ring-[#FF5823] focus:border-[#FF5823] rounded-xl h-12 text-gray-700 placeholder:text-gray-500"
+            />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          </div>
+          <div className="flex items-center justify-between mt-3">
+            <div className="text-sm font-medium text-gray-700">
+              {filteredPoints.length} parcel point{filteredPoints.length !== 1 ? 's' : ''} found
+            </div>
+            <Badge variant="outline" className="border-gray-200 text-gray-700">
+              Cape Town
+            </Badge>
+          </div>
+        </div>
+
+        {/* Mobile Map - Fixed height */}
+        <div className="relative h-[50vh]">
+          <GoogleMap
+            mapContainerStyle={{
+              width: '100%',
+              height: '100%',
+            }}
+            center={center}
+            zoom={11}
+            options={mapOptions}
+            onLoad={onMapLoad}
+          >
+            {searchMarker && (
+              <Marker
+                position={searchMarker}
+                icon={{
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 10,
+                  fillColor: '#4A90E2',
+                  fillOpacity: 1,
+                  strokeColor: '#ffffff',
+                  strokeWeight: 2,
+                }}
+                animation={google.maps.Animation.DROP}
+              />
+            )}
+
+            {selectedPoint && (
+              <InfoWindow
+                position={{ lat: selectedPoint.lat, lng: selectedPoint.lng }}
+                onCloseClick={() => setSelectedPoint(null)}
+              >
+                <div className="min-w-[200px] p-3">
+                  <h3 className="text-base font-bold text-[#FF5823] mb-2">
+                    {selectedPoint.name}
+                  </h3>
+                  <div className="text-sm text-gray-600 space-y-2">
+                    <div className="flex items-start space-x-2">
+                      <MapPin className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
+                      <span>{selectedPoint.address}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                      <span>{selectedPoint.businessHours}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current flex-shrink-0" />
+                      <span className="font-medium">{selectedPoint.rating} rating</span>
+                    </div>
+                  </div>
+                </div>
+              </InfoWindow>
+            )}
+          </GoogleMap>
+        </div>
+
+        {/* Mobile Points List - Scrollable */}
+        <div className="bg-white/95 backdrop-blur-sm border-t border-orange-200">
           <div className="p-4">
             <div className="space-y-3">
               {filteredPoints.map((point, index) => (
