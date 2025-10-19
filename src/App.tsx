@@ -8,9 +8,16 @@ import { Footer } from "./components/Footer";
 import { Cta } from "./components/Cta";
 import { FAQ } from "./components/FAQ";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { SparcelPoints } from "./components/SparcelPoints";
 import "./App.css";
 
 export default function App() {
+  // Check if we're on the sparcelpoints route
+  if (window.location.pathname === '/sparcelpoints') {
+    return <SparcelPoints />;
+  }
+
+  // Default main site
   return (
     <>
       <Hero />

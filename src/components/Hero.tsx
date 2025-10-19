@@ -1,10 +1,7 @@
 import { Button } from "./ui/button";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
-import { MapDialog } from "./MapDialog";
 
 export const Hero = () => {
-  const [isMapOpen, setIsMapOpen] = useState(false);
 
   return (
     <section className="relative min-h-[100vh] overflow-hidden">
@@ -61,7 +58,7 @@ export const Hero = () => {
           <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-start gap-4 mt-8">
             <Button 
               className="w-full md:w-[300px] bg-white hover:bg-white/90 text-gray-900 px-4 sm:px-8 py-3 flex items-center justify-center font-bold text-sm sm:text-base"
-              onClick={() => setIsMapOpen(true)}
+              onClick={() => window.location.href = '/sparcelpoints'}
             >
               <MagnifyingGlassIcon className="mr-2 h-5 w-5 text-gray-500" />
               find your sparcel point
@@ -72,8 +69,6 @@ export const Hero = () => {
           </div>
         </div>
       </div>
-
-      <MapDialog open={isMapOpen} onOpenChange={setIsMapOpen} />
     </section>
   );
 };
