@@ -100,6 +100,7 @@ export const getQRCodeStats = async (): Promise<QRCodeStats> => {
 // Get all QR codes with pagination
 export const getQRCodes = async (page: number = 1, limit: number = 50) => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('qr_codes')
       .select(`
@@ -121,6 +122,7 @@ export const getQRCodes = async (page: number = 1, limit: number = 50) => {
 // Mark QR code as used (when a parcel journey is created)
 export const markQRCodeAsUsed = async (bagId: string) => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { error } = await supabase
       .from('qr_codes')
       .update({
@@ -142,6 +144,7 @@ export const markQRCodeAsUsed = async (bagId: string) => {
 // Get QR code by bag ID
 export const getQRCodeByBagId = async (bagId: string) => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('qr_codes')
       .select('*')
@@ -168,6 +171,7 @@ export const deleteQRCode = async (bagId: string) => {
     }
 
     // Delete from storage
+    if (!supabase) throw new Error('Supabase not available');
     const { error: storageError } = await supabase.storage
       .from('qr-codes')
       .remove([qrCode.storage_path]);

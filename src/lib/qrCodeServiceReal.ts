@@ -46,6 +46,7 @@ export const generateQRCode = async (bagId?: string, baseUrl: string = 'https://
     const qrCodeBuffer = await response.arrayBuffer();
     
     // Upload to Supabase Storage
+    if (!supabase) throw new Error('Supabase not available');
     const fileName = `qr-${finalBagId}.png`;
     const { data, error } = await supabase.storage
       .from('qr-codes')
@@ -129,6 +130,7 @@ export const generateBatchQRCodes = async (count: number = 10, baseUrl: string =
 // Get QR code usage statistics
 export const getQRCodeStats = async (): Promise<QRCodeStats> => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('qr_codes')
       .select('status, created_at, used_at');
@@ -152,6 +154,7 @@ export const getQRCodeStats = async (): Promise<QRCodeStats> => {
 // Get all QR codes with pagination
 export const getQRCodes = async (page: number = 1, limit: number = 50) => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('qr_codes')
       .select(`
@@ -173,6 +176,7 @@ export const getQRCodes = async (page: number = 1, limit: number = 50) => {
 // Mark QR code as used (when a parcel journey is created)
 export const markQRCodeAsUsed = async (bagId: string) => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { error } = await supabase
       .from('qr_codes')
       .update({
@@ -195,6 +199,7 @@ export const markQRCodeAsUsed = async (bagId: string) => {
 // Get QR code by bag ID
 export const getQRCodeByBagId = async (bagId: string) => {
   try {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('qr_codes')
       .select('*')

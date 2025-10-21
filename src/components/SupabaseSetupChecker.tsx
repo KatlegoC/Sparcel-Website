@@ -88,6 +88,7 @@ export const SupabaseSetupChecker: React.FC = () => {
 
     // Check 2: Database Connection
     try {
+      if (!supabase) throw new Error('Supabase not available');
       const { data, error } = await supabase.from('parcel_journeys').select('count').limit(1);
       if (error) throw error;
       
@@ -109,6 +110,7 @@ export const SupabaseSetupChecker: React.FC = () => {
 
     // Check 3: QR Codes Table
     try {
+      if (!supabase) throw new Error('Supabase not available');
       const { data, error } = await supabase.from('qr_codes').select('count').limit(1);
       if (error) throw error;
       
@@ -130,6 +132,7 @@ export const SupabaseSetupChecker: React.FC = () => {
 
     // Check 4: Storage Bucket
     try {
+      if (!supabase) throw new Error('Supabase not available');
       const { data, error } = await supabase.storage.from('qr-codes').list('', { limit: 1 });
       if (error) throw error;
       
