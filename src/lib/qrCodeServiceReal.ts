@@ -226,6 +226,7 @@ export const deleteQRCode = async (bagId: string) => {
     }
 
     // Delete from storage
+    if (!supabase) throw new Error('Supabase not available');
     const { error: storageError } = await supabase.storage
       .from('qr-codes')
       .remove([qrCode.storage_path]);
