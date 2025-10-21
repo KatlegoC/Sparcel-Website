@@ -1052,13 +1052,16 @@ export const ParcelTracker = () => {
     <div className="min-h-screen orange-bg py-12">
       <div className="container-professional">
         {/* Hero Section */}
-        <div className="text-center mb-10 sm:mb-16 animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl leading-tight sm:leading-tight font-bold text-white mb-4 sm:mb-6 px-4">
+        <div className="text-center mb-12 sm:mb-16 animate-fade-in">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl leading-tight font-bold text-white mb-6 sm:mb-8 px-4">
             Already have a QR code? <span className="text-gradient">Configure your Parcel Journey</span>
           </h1>
-          <p className="text-base sm:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed sm:leading-relaxed px-4">
-            Sparcel makes it easy, affordable and reliable to send and receive parcels in townships and rural areas. 
-            Select pickup and delivery locations from our trusted network of spaza shops.
+          <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-5xl mx-auto leading-relaxed px-4 font-medium">
+            We're transforming how parcels move through townships. By partnering with local spaza shops, Sparcel turns trusted community stores into collection and delivery points — making it easy, affordable and reliable to send and receive parcels in your area.
+          </p>
+          <p className="text-base sm:text-lg md:text-xl text-black max-w-5xl mx-auto leading-relaxed px-4 font-medium mt-6">
+            We're reimagining last-mile delivery — bringing logistics to where people live, trade, and connect.<br />
+            Powered by spaza shops, built for the township economy.
           </p>
         </div>
 
@@ -1127,9 +1130,10 @@ export const ParcelTracker = () => {
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-black rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold mx-auto mb-3 sm:mb-4 shadow-lg">
                   1
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-black mb-2 sm:mb-3">Get Your QR Code</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-black mb-2 sm:mb-3">Get & Scan Your QR Code</h3>
                 <p className="text-sm sm:text-base text-black/80 leading-relaxed">
-                  Collect your Sparcel QR code and choose pick-up and delivery points from our trusted spaza shop network.
+                  Collect your Sparcel QR sticker from your local spaza shop.
+                  Scan it to set your pickup and delivery destinations — these details are embedded directly in your unique QR code.
                 </p>
               </div>
             </div>
@@ -1140,7 +1144,8 @@ export const ParcelTracker = () => {
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-black mb-2 sm:mb-3">Drop Off Your Parcel</h3>
                 <p className="text-sm sm:text-base text-black/80 leading-relaxed">
-                  Take your parcel to your selected registered spaza shop pick-up point.
+                  Attach your QR sticker to the parcel and drop it off at your selected registered spaza shop.
+                  The shop scans your code to log the parcel instantly with our courier partners for delivery.
                 </p>
               </div>
             </div>
@@ -1151,7 +1156,7 @@ export const ParcelTracker = () => {
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-black mb-2 sm:mb-3">Parcel Collection & Delivery</h3>
                 <p className="text-sm sm:text-base text-black/80 leading-relaxed">
-                  Our delivery partners collect your parcel and ensure it reaches the chosen delivery point safely.
+                  Our courier partners collect parcels from spaza shops and deliver them to the destination shop selected in your QR journey.
                 </p>
               </div>
             </div>
@@ -1191,9 +1196,12 @@ export const ParcelTracker = () => {
               <CardTitle className="text-4xl font-bold mb-4 text-white">
                 Configure Your Parcel Journey
               </CardTitle>
-              <CardDescription className="text-xl text-orange-100">
-                Delivering through our trusted spaza shop network
-              </CardDescription>
+              <p className="text-xl text-white/85 mt-6 max-w-4xl mx-auto font-medium">
+                Set up your parcel in three quick steps — choose size, select pickup & drop-off spaza shops, and confirm your delivery.
+              </p>
+              <p className="text-lg text-white/80 mt-4 max-w-3xl mx-auto">
+                Tell us who you're sending it to — we'll take care of the rest.
+              </p>
               {currentQRCode && (
                 <div className="mt-6 p-4 sm:p-6 bg-white rounded-xl shadow-lg border border-gray-200">
                   <div className="text-center">
@@ -1229,6 +1237,13 @@ export const ParcelTracker = () => {
                     <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                       Parcel Size & Details
                     </h3>
+                  </div>
+                  
+                  <div className="bg-black rounded p-1.5 md:p-2 mb-2 md:mb-3">
+                    <p className="text-[10px] md:text-xs text-white flex items-start">
+                      <span className="text-xs mr-1.5">💡</span>
+                      <span><strong>Tip:</strong> Choose the closest size — our couriers will handle it safely if it's under 15kg.</span>
+                    </p>
                   </div>
                   
                   <div>
@@ -1384,6 +1399,13 @@ export const ParcelTracker = () => {
                     <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                       Location Selection
                     </h3>
+                  </div>
+                  
+                  <div className="bg-black rounded p-1.5 md:p-2 mb-2 md:mb-3">
+                    <p className="text-[10px] md:text-xs text-white flex items-start">
+                      <span className="text-xs mr-1.5">📍</span>
+                      <span><strong>You can use your nearest spaza shop or any Sparcel point as pickup or drop-off.</strong></span>
+                    </p>
                   </div>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
@@ -1594,6 +1616,13 @@ export const ParcelTracker = () => {
                   <h3 className="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-2">
                     👤 Customer & Recipient Details
                   </h3>
+                  
+                  <div className="bg-black rounded p-1.5 md:p-2 mb-2 md:mb-3">
+                    <p className="text-[10px] md:text-xs text-white flex items-start">
+                      <span className="text-xs mr-1.5">🧾</span>
+                      <span><strong>We only use this information to confirm delivery — no spam, no fuss.</strong></span>
+                    </p>
+                  </div>
                   
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-4">

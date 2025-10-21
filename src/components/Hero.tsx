@@ -40,18 +40,16 @@ export const Hero = () => {
       
       <div className="container relative grid place-items-start min-h-[calc(100vh-8rem)]">
         <div className="text-center md:text-left space-y-6 mt-32 md:mt-48 px-4 sm:px-0 max-w-4xl w-full">
-          <div className="space-y-4 max-w-2xl">
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
-              Parcel Delivery Made Simple
+          <div className="space-y-6 max-w-2xl">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-white leading-tight">
+              <span className="block sm:inline">Township Parcel Delivery,</span>
+              <span className="block sm:inline"> Made Simple.</span>
             </h1>
-            <div className="text-xl sm:text-2xl md:text-3xl text-white/90 font-medium">
-              Reliable logistics, powered by trusted spaza shops.
+            <div className="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold leading-relaxed">
+              Reliable parcel delivery through your trusted local spaza shop — fast, affordable, and community-powered.
             </div>
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed">
-              Sparcel makes it easy and reliable to send and receive parcels in townships and rural areas.
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed">
-              We partner with local spaza shops to bring delivery and collection points closer to you.
+            <p className="text-base sm:text-lg text-white/75 leading-relaxed font-medium">
+              Send and receive parcels in your area without leaving the kasi.
             </p>
           </div>
 
