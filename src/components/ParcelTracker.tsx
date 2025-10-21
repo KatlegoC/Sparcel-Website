@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 
 import { MapPinIcon, UserIcon, PhoneIcon, TruckIcon, CheckCircleIcon, BoxIcon } from 'lucide-react';
 import { LocationSelector } from './LocationSelector';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseAvailable } from '@/lib/supabase';
 import { sendBookingConfirmationEmails } from '@/lib/emailService';
 import { markQRCodeAsUsed } from '@/lib/qrCodeService';
 
@@ -391,15 +391,15 @@ export const ParcelTracker = () => {
   // Get journey by QR code from Supabase (with localStorage fallback)
   const getJourneyByQRCode = async (qrCode: string): Promise<ParcelJourney | null> => {
     try {
-      // Check if Supabase is configured
-      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+      // Check if Supabase is available
+      if (!isSupabaseAvailable()) {
         console.log('Supabase not configured, using localStorage');
         const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
         return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
       }
 
       // Try Supabase first
-      const { data, error } = await supabase
+      const { data, error } = await supabase!
         .from('parcel_journeys')
         .select('*')
         .eq('bag_id', qrCode)
@@ -458,8 +458,8 @@ export const ParcelTracker = () => {
   // Save journey to Supabase (with localStorage fallback)
   const saveJourneyToStorage = async (journey: ParcelJourney) => {
     try {
-      // Check if Supabase is configured
-      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+      // Check if Supabase is available
+      if (!isSupabaseAvailable()) {
         console.log('Supabase not configured, using localStorage');
         const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
         const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
@@ -476,7 +476,7 @@ export const ParcelTracker = () => {
       }
 
       // Try Supabase first
-      const { data, error } = await supabase
+      const { data, error } = await supabase!
         .from('parcel_journeys')
         .upsert({
           bag_id: journey.bag_id,

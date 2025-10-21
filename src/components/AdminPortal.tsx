@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseAvailable } from '@/lib/supabase';
 
 interface QRCode {
   id: string;
@@ -34,8 +34,8 @@ export const AdminPortal = () => {
     try {
       setIsLoading(true);
       
-      // Check if Supabase is configured
-      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+      // Check if Supabase is available
+      if (!isSupabaseAvailable()) {
         console.log('Supabase not configured, using localStorage');
         const localQRCodes = JSON.parse(localStorage.getItem('qrCodes') || '[]');
         setQrCodes(localQRCodes);
@@ -43,7 +43,7 @@ export const AdminPortal = () => {
       }
 
       // Try to load from Supabase first (using existing parcel_journeys table)
-      const { data, error } = await supabase
+      const { data, error } = await supabase!
         .from('parcel_journeys')
         .select('id, bag_id, created_at, status')
         .order('created_at', { ascending: false });
@@ -100,8 +100,8 @@ export const AdminPortal = () => {
 
       // Save to database
       try {
-        // Check if Supabase is configured
-        if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        // Check if Supabase is available
+        if (!isSupabaseAvailable()) {
           console.log('Supabase not configured, saving to localStorage');
           const existingQRCodes = JSON.parse(localStorage.getItem('qrCodes') || '[]');
           existingQRCodes.unshift(qrData);
@@ -112,7 +112,7 @@ export const AdminPortal = () => {
         }
 
         // Try Supabase first (save to existing parcel_journeys table)
-        const { data, error } = await supabase
+        const { data, error } = await supabase!
           .from('parcel_journeys')
           .insert([{
             bag_id: bagId,
@@ -240,10 +240,10 @@ export const AdminPortal = () => {
   const deleteQRCode = async (id: string) => {
     if (confirm('Are you sure you want to delete this QR code?')) {
       try {
-        // Check if Supabase is configured
-        if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        // Check if Supabase is available
+        if (isSupabaseAvailable()) {
           // Try to delete from database first (using existing parcel_journeys table)
-          const { error } = await supabase
+          const { error } = await supabase!
             .from('parcel_journeys')
             .delete()
             .eq('id', id);
