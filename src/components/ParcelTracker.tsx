@@ -5,9 +5,9 @@ import { Input } from './ui/input';
 
 import { MapPinIcon, UserIcon, PhoneIcon, TruckIcon, CheckCircleIcon, BoxIcon } from 'lucide-react';
 import { LocationSelector } from './LocationSelector';
-// import { supabase } from '@/lib/supabase';
-// import { sendBookingConfirmationEmails } from '@/lib/emailService';
-// import { markQRCodeAsUsed } from '@/lib/qrCodeService';
+import { supabase } from '@/lib/supabase';
+import { sendBookingConfirmationEmails } from '@/lib/emailService';
+import { markQRCodeAsUsed } from '@/lib/qrCodeService';
 
 interface ParcelJourney {
   bag_id: string;
@@ -167,16 +167,27 @@ export const ParcelTracker = () => {
       // Check if journey exists for this QR code
       getJourneyByQRCode(bagId).then((existingJourney) => {
         if (existingJourney) {
-          // Journey exists - show courier view ONLY (no more configuration allowed)
-          setIsCourierView(true);
-          setSelectedParcel(existingJourney);
-          setFromLocation(existingJourney.from_location);
-          setToLocation(existingJourney.to_location);
-          setShowQRPopup(false);
-          console.log('Existing journey found for QR code:', bagId, existingJourney);
-          console.log('From location in existing journey:', existingJourney.from_location);
-          console.log('To location in existing journey:', existingJourney.to_location);
-          console.log('This QR code has already been configured - showing courier view only');
+          // Check if journey is actually configured (has customer details) or just created (only bag_id)
+          const isConfigured = isJourneyConfigured(existingJourney);
+          
+          if (isConfigured) {
+            // Journey is fully configured - show courier view ONLY (no more configuration allowed)
+            setIsCourierView(true);
+            setSelectedParcel(existingJourney);
+            setFromLocation(existingJourney.from_location);
+            setToLocation(existingJourney.to_location);
+            setShowQRPopup(false);
+            console.log('✅ Fully configured journey found for QR code:', bagId);
+            console.log('Customer:', existingJourney.customer_name);
+            console.log('This QR code has already been configured - showing courier view only');
+          } else {
+            // Journey exists but not configured (only has bag_id) - show QR popup first
+            setIsCourierView(false);
+            setShowQRPopup(true); // Show QR popup to inform user about one-time configuration
+            console.log('⚠️ QR code exists but not configured:', bagId);
+            console.log('Customer name:', existingJourney.customer_name);
+            console.log('Showing QR popup for unconfigured QR code');
+          }
         } else {
           // No journey exists - show QR popup first
           setIsCourierView(false);
@@ -368,42 +379,65 @@ export const ParcelTracker = () => {
     }
   }, [parcelSize, fromLocation, toLocation, autoLoadQuotes]);
 
+  // Helper function to check if a journey is fully configured
+  const isJourneyConfigured = (journey: ParcelJourney): boolean => {
+    return !!(journey.customer_name && 
+              journey.customer_phone && 
+              journey.recipient_name && 
+              journey.from_location && 
+              journey.to_location);
+  };
+
   // Get journey by QR code from Supabase (with localStorage fallback)
   const getJourneyByQRCode = async (qrCode: string): Promise<ParcelJourney | null> => {
     try {
+      // Check if Supabase is configured
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        console.log('Supabase not configured, using localStorage');
+        const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+        return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
+      }
+
       // Try Supabase first
-      // const { data, error } = await supabase
-      //   .from('parcel_journeys')
-      //   .select('*')
-      //   .eq('bag_id', qrCode)
-      //   .single();
+      const { data, error } = await supabase
+        .from('parcel_journeys')
+        .select('*')
+        .eq('bag_id', qrCode)
+        .single();
 
-      // if (error) {
-      //   console.log('Supabase query failed, falling back to localStorage:', error.message);
-      //   // Fallback to localStorage
-      //   const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
-      //   return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
-      // }
+      if (error) {
+        console.log('Supabase query failed, falling back to localStorage:', error.message);
+        // Fallback to localStorage
+        const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+        return journeys.find((journey: ParcelJourney) => journey.bag_id === qrCode) || null;
+      }
 
-      // if (data) {
-      //   // Convert Supabase data to local format
-      //   return {
-      //     bag_id: data.bag_id,
-      //     customer_name: data.customer_name || '',
-      //     customer_phone: data.customer_phone || '',
-      //     customer_email: data.customer_email || '',
-      //     customer_id_number: data.customer_id_number || '',
-      //     recipient_name: data.recipient_name || '',
-      //     recipient_phone: data.recipient_phone || '',
-      //     recipient_email: data.recipient_email || '',
-      //     from_location: data.from_location,
-      //     to_location: data.to_location,
-      //     parcel_size: data.parcel_size || '',
-      //     number_of_boxes: data.number_of_boxes || 1,
-      //     special_instructions: data.special_instructions || '',
-      //     status: data.status
-      //   };
-      // }
+      if (data) {
+        console.log('✅ Found journey in Supabase:', data);
+        // Convert Supabase data to local format
+        return {
+          bag_id: data.bag_id,
+          customer_name: data.customer_name || '',
+          customer_phone: data.customer_phone || '',
+          customer_email: data.customer_email || '',
+          customer_id_number: data.customer_id_number || '',
+          recipient_name: data.recipient_name || '',
+          recipient_phone: data.recipient_phone || '',
+          recipient_email: data.recipient_email || '',
+          from_location: data.from_location,
+          to_location: data.to_location,
+          parcel_size: data.parcel_size || '',
+          number_of_boxes: data.number_of_boxes || 1,
+          special_instructions: data.special_instructions || '',
+          status: data.status,
+          // Dropper API response fields
+          booking_confirmation: data.booking_confirmation,
+          tracking_number: data.tracking_number,
+          booking_status: data.booking_status,
+          courier_company: data.courier_company,
+          created_at: data.created_at
+        };
+      }
 
       // Fallback to localStorage if no data found
       const journeys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
@@ -424,72 +458,73 @@ export const ParcelTracker = () => {
   // Save journey to Supabase (with localStorage fallback)
   const saveJourneyToStorage = async (journey: ParcelJourney) => {
     try {
-      // Try Supabase first
-      // const { data, error } = await supabase
-      //   .from('parcel_journeys')
-      //   .upsert({
-      //     bag_id: journey.bag_id,
-      //     customer_name: journey.customer_name,
-      //     customer_phone: journey.customer_phone,
-      //     customer_email: journey.customer_email,
-      //     customer_id_number: journey.customer_id_number,
-      //     recipient_name: journey.recipient_name,
-      //     recipient_phone: journey.recipient_phone,
-      //     recipient_email: journey.recipient_email,
-      //     from_location: journey.from_location,
-      //     to_location: journey.to_location,
-      //     parcel_size: journey.parcel_size,
-      //     number_of_boxes: journey.number_of_boxes,
-      //     special_instructions: journey.special_instructions,
-      //     status: journey.status,
-      //     booking_confirmation: journey.booking_confirmation,
-      //     tracking_number: journey.tracking_number,
-      //     booking_status: journey.booking_status,
-      //     courier_company: journey.courier_company,
-      //     oid: journey.booking_confirmation?.oid,
-      //     business_key: journey.booking_confirmation?.businessKey,
-      //     track_no: journey.booking_confirmation?.trackNo,
-      //     tracking_link: journey.booking_confirmation?.link,
-      //     booking_message: journey.booking_confirmation?.message,
-      //     booking_status_code: journey.booking_confirmation?.statusCode
-      //   }, {
-      //     onConflict: 'bag_id'
-      //   });
-
-      // if (error) {
-      //   console.error('Supabase save failed, falling back to localStorage:', error);
-      //   // Fallback to localStorage
-      //   const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
-      //   const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
+      // Check if Supabase is configured
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        console.log('Supabase not configured, using localStorage');
+        const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+        const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
         
-      //   if (existingIndex >= 0) {
-      //     existingJourneys[existingIndex] = journey;
-      //     console.log('Updated existing journey in localStorage for bag ID:', journey.bag_id);
-      //   } else {
-      //     existingJourneys.push(journey);
-      //     console.log('Added new journey to localStorage for bag ID:', journey.bag_id);
-      //   }
+        if (existingIndex >= 0) {
+          existingJourneys[existingIndex] = journey;
+        } else {
+          existingJourneys.push(journey);
+        }
         
-      //   localStorage.setItem('parcelJourneys', JSON.stringify(existingJourneys));
-      //   console.log('Successfully saved journey to localStorage for bag ID:', journey.bag_id);
-      // } else {
-      //   console.log('Successfully saved journey to Supabase for bag ID:', journey.bag_id);
-      // }
-
-      // Always use localStorage fallback since Supabase is commented out
-      const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
-      const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
-      
-      if (existingIndex >= 0) {
-        existingJourneys[existingIndex] = journey;
-        console.log('Updated existing journey in localStorage for bag ID:', journey.bag_id);
-      } else {
-        existingJourneys.push(journey);
-        console.log('Added new journey to localStorage for bag ID:', journey.bag_id);
+        localStorage.setItem('parcelJourneys', JSON.stringify(existingJourneys));
+        console.log('✅ Saved journey to localStorage for bag ID:', journey.bag_id);
+        return;
       }
-      
-      localStorage.setItem('parcelJourneys', JSON.stringify(existingJourneys));
-      console.log('Successfully saved journey to localStorage for bag ID:', journey.bag_id);
+
+      // Try Supabase first
+      const { data, error } = await supabase
+        .from('parcel_journeys')
+        .upsert({
+          bag_id: journey.bag_id,
+          customer_name: journey.customer_name,
+          customer_phone: journey.customer_phone,
+          customer_email: journey.customer_email,
+          customer_id_number: journey.customer_id_number,
+          recipient_name: journey.recipient_name,
+          recipient_phone: journey.recipient_phone,
+          recipient_email: journey.recipient_email,
+          from_location: journey.from_location,
+          to_location: journey.to_location,
+          parcel_size: journey.parcel_size,
+          number_of_boxes: journey.number_of_boxes,
+          special_instructions: journey.special_instructions,
+          status: journey.status,
+          // Dropper API response fields
+          booking_confirmation: journey.booking_confirmation,
+          tracking_number: journey.tracking_number,
+          booking_status: journey.booking_status,
+          courier_company: journey.courier_company,
+          oid: journey.booking_confirmation?.oid,
+          business_key: journey.booking_confirmation?.businessKey,
+          track_no: journey.booking_confirmation?.trackNo,
+          tracking_link: journey.booking_confirmation?.link,
+          booking_message: journey.booking_confirmation?.message,
+          booking_status_code: journey.booking_confirmation?.statusCode
+        }, {
+          onConflict: 'bag_id'
+        });
+
+      if (error) {
+        console.error('Supabase save failed, falling back to localStorage:', error);
+        // Fallback to localStorage
+        const existingJourneys = JSON.parse(localStorage.getItem('parcelJourneys') || '[]');
+        const existingIndex = existingJourneys.findIndex((j: ParcelJourney) => j.bag_id === journey.bag_id);
+        
+        if (existingIndex >= 0) {
+          existingJourneys[existingIndex] = journey;
+        } else {
+          existingJourneys.push(journey);
+        }
+        
+        localStorage.setItem('parcelJourneys', JSON.stringify(existingJourneys));
+        console.log('✅ Saved journey to localStorage (fallback) for bag ID:', journey.bag_id);
+      } else {
+        console.log('✅ Successfully saved journey to Supabase for bag ID:', journey.bag_id);
+      }
     } catch (error) {
       console.error('Error saving journey:', error);
       // Fallback to localStorage
@@ -788,7 +823,7 @@ export const ParcelTracker = () => {
       // Mark QR code as used if it exists
       if (currentQRCode) {
         try {
-          // await markQRCodeAsUsed(currentQRCode);
+          await markQRCodeAsUsed(currentQRCode);
           console.log('✅ QR code marked as used:', currentQRCode);
         } catch (error) {
           console.warn('⚠️ Failed to mark QR code as used:', error);
@@ -809,32 +844,32 @@ export const ParcelTracker = () => {
       // Send confirmation emails to customer and recipient
       console.log('📧 Sending confirmation emails...');
       try {
-        // await sendBookingConfirmationEmails({
-        //   bag_id: bagId,
-        //   tracking_number: journeyData.tracking_number,
-        //   courier_company: journeyData.courier_company,
-        //   tracking_link: bookingResponse.link || undefined,
-        //   pickup_location: {
-        //     name: fromLocation?.name || 'Pickup Location',
-        //     address: fromLocation?.address || fromLocation?.formatted_address || 'Address not available',
-        //   },
-        //   delivery_location: {
-        //     name: toLocation?.name || 'Delivery Location',
-        //     address: toLocation?.address || toLocation?.formatted_address || 'Address not available',
-        //   },
-        //   customer: {
-        //     name: customerName,
-        //     email: customerEmail,
-        //     phone: customerPhone,
-        //   },
-        //   recipient: {
-        //     name: recipientName,
-        //     email: recipientEmail,
-        //     phone: recipientPhone,
-        //   },
-        //   parcel_size: parcelSize,
-        //   number_of_boxes: numberOfBoxes,
-        // });
+        await sendBookingConfirmationEmails({
+          bag_id: bagId,
+          tracking_number: journeyData.tracking_number,
+          courier_company: journeyData.courier_company,
+          tracking_link: bookingResponse.link || undefined,
+          pickup_location: {
+            name: fromLocation?.name || 'Pickup Location',
+            address: fromLocation?.address || fromLocation?.formatted_address || 'Address not available',
+          },
+          delivery_location: {
+            name: toLocation?.name || 'Delivery Location',
+            address: toLocation?.address || toLocation?.formatted_address || 'Address not available',
+          },
+          customer: {
+            name: customerName,
+            email: customerEmail,
+            phone: customerPhone,
+          },
+          recipient: {
+            name: recipientName,
+            email: recipientEmail,
+            phone: recipientPhone,
+          },
+          parcel_size: parcelSize,
+          number_of_boxes: numberOfBoxes,
+        });
         console.log('✅ Confirmation emails sent successfully');
       } catch (emailError) {
         console.error('⚠️ Failed to send confirmation emails:', emailError);

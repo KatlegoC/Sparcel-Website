@@ -9,12 +9,17 @@ import { Cta } from "./components/Cta";
 import { FAQ } from "./components/FAQ";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { SparcelPoints } from "./components/SparcelPoints";
+import { AdminPortal } from "./components/AdminPortal";
 import "./App.css";
 
 export default function App() {
-  // Check if we're on the sparcelpoints route
+  // Check for specific routes
   if (window.location.pathname === '/sparcelpoints') {
     return <SparcelPoints />;
+  }
+
+  if (window.location.pathname === '/admin') {
+    return <AdminPortal />;
   }
 
   // Default main site
