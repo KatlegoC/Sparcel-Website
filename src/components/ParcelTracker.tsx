@@ -202,6 +202,185 @@ export const ParcelTracker = () => {
     }
   }, []);
 
+  // Handle payment return from PayFast
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatus = urlParams.get('payment');
+    
+    if (paymentStatus === 'success') {
+      // Load checkout data from localStorage
+      const checkoutData = localStorage.getItem('pendingCheckout');
+      if (checkoutData) {
+        try {
+          const parsed = JSON.parse(checkoutData);
+          console.log('✅ Payment successful - proceeding with booking:', parsed);
+          
+          // Trigger booking directly with the checkout data
+          processPaymentSuccess(parsed);
+          
+          // Clear checkout data
+          localStorage.removeItem('pendingCheckout');
+        } catch (error) {
+          console.error('Error loading checkout data:', error);
+          alert('Payment successful but failed to restore order details. Please contact support.');
+        }
+      } else {
+        console.error('No checkout data found in localStorage');
+        alert('Payment successful but no order details found. Please contact support.');
+      }
+      
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (paymentStatus === 'cancelled') {
+      alert('❌ Payment was cancelled. Please try again.');
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
+  // Process payment success and create booking
+  const processPaymentSuccess = async (checkoutData: any) => {
+    setIsSubmitting(true);
+
+    try {
+      // IMPORTANT: Only proceed if a quote is selected (delivery booking is required)
+      if (!checkoutData.selectedQuote) {
+        alert('❌ No delivery option selected.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const journeyData: ParcelJourney = {
+        bag_id: checkoutData.bagId,
+        customer_name: checkoutData.customerName,
+        customer_phone: checkoutData.customerPhone,
+        customer_email: checkoutData.customerEmail,
+        customer_id_number: checkoutData.customerIdNumber,
+        recipient_name: checkoutData.recipientName,
+        recipient_phone: checkoutData.recipientPhone,
+        recipient_email: checkoutData.recipientEmail,
+        from_location: checkoutData.fromLocation,
+        to_location: checkoutData.toLocation,
+        parcel_size: checkoutData.parcelSize,
+        number_of_boxes: checkoutData.numberOfBoxes,
+        special_instructions: checkoutData.specialInstructions,
+        status: 'pending' as 'pending' | 'in-transit' | 'delivered',
+        created_at: new Date().toISOString()
+      };
+
+      // Create booking with Dropper Group FIRST (before saving anything)
+      console.log('🚀 Creating booking with Dropper Group for selected quote:', checkoutData.selectedQuote);
+      const bookingResponse = await createBookingWithDropper(journeyData, checkoutData.selectedQuote);
+      
+      // Check for success indicators: tracking number, business key, or statusCode 200
+      const isBookingSuccessful = bookingResponse !== null && (
+        bookingResponse.trackNo !== null || 
+        bookingResponse.businessKey !== null || 
+        bookingResponse.oid !== null || 
+        bookingResponse.statusCode === 200
+      );
+      
+      if (!isBookingSuccessful || !bookingResponse) {
+        // BOOKING FAILED - Don't save anything, ask user to retry
+        console.error('❌ Booking failed with Dropper Group');
+        console.error('📊 Failed Booking Response:', bookingResponse);
+        
+        alert(`❌ DELIVERY BOOKING FAILED\n\nWe could not complete your delivery booking with ${checkoutData.selectedQuote?.provider || 'the courier'}.\n\n${bookingResponse?.message || 'The courier service is temporarily unavailable.'}\n\n⚠️ Please try again in a few moments.`);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // BOOKING SUCCESSFUL - Now save everything
+      const bookingRef = bookingResponse.trackNo || bookingResponse.businessKey || bookingResponse.oid || 'N/A';
+      console.log('✅ Booking created successfully with Dropper Group');
+      console.log('📋 Booking Reference:', bookingRef);
+      console.log('📦 Tracking Number:', bookingResponse.trackNo || 'N/A');
+      console.log('🔗 Tracking Link:', bookingResponse.link || 'N/A');
+      console.log('📊 Full Booking Response:', bookingResponse);
+      
+      // Store booking confirmation in the journey data
+      journeyData.booking_confirmation = bookingResponse;
+      journeyData.tracking_number = bookingResponse.trackNo || bookingResponse.businessKey || bookingResponse.oid || 'N/A';
+      journeyData.booking_status = 'confirmed';
+      journeyData.courier_company = checkoutData.selectedQuote?.provider || 'Dropper Group';
+      
+      // Save to database (with localStorage fallback)
+      await saveJourneyToStorage(journeyData);
+      
+      // Mark QR code as used if it exists
+      if (checkoutData.currentQRCode) {
+        try {
+          await markQRCodeAsUsed(checkoutData.currentQRCode);
+          console.log('✅ QR code marked as used:', checkoutData.currentQRCode);
+        } catch (error) {
+          console.warn('⚠️ Failed to mark QR code as used:', error);
+          // Don't fail the entire process if QR code marking fails
+        }
+      }
+      
+      console.log('💾 Journey and booking details saved to database:', {
+        bag_id: journeyData.bag_id,
+        tracking_number: journeyData.tracking_number,
+        booking_status: journeyData.booking_status,
+        courier_company: journeyData.courier_company,
+        oid: bookingResponse.oid,
+        business_key: bookingResponse.businessKey,
+        track_no: bookingResponse.trackNo
+      });
+
+      // Send confirmation emails to customer and recipient
+      console.log('📧 Sending confirmation emails...');
+      try {
+        await sendBookingConfirmationEmails({
+          bag_id: checkoutData.bagId,
+          tracking_number: journeyData.tracking_number,
+          courier_company: journeyData.courier_company || 'Dropper Group',
+          tracking_link: bookingResponse.link || undefined,
+          pickup_location: {
+            name: journeyData.from_location?.name || 'Pickup Location',
+            address: journeyData.from_location?.address || journeyData.from_location?.formatted_address || 'Address not available',
+          },
+          delivery_location: {
+            name: journeyData.to_location?.name || 'Delivery Location',
+            address: journeyData.to_location?.address || journeyData.to_location?.formatted_address || 'Address not available',
+          },
+          customer: {
+            name: journeyData.customer_name,
+            email: journeyData.customer_email,
+            phone: journeyData.customer_phone,
+          },
+          recipient: {
+            name: journeyData.recipient_name,
+            email: journeyData.recipient_email,
+            phone: journeyData.recipient_phone,
+          },
+          parcel_size: journeyData.parcel_size,
+          number_of_boxes: journeyData.number_of_boxes,
+        });
+        console.log('✅ Confirmation emails sent successfully');
+      } catch (emailError) {
+        console.error('⚠️ Failed to send confirmation emails:', emailError);
+        // Don't fail the booking if email fails
+      }
+
+      // Show success message with pickup instructions
+      const pickupLocationName = journeyData.from_location?.name || 'your selected pickup location';
+      const deliveryLocationName = journeyData.to_location?.name || 'your delivery location';
+      
+      if (checkoutData.currentQRCode) {
+        alert(`🎉 PARCEL JOURNEY BOOKED SUCCESSFULLY!\n\n📦 Bag ID: ${checkoutData.bagId}\n🏢 Courier: ${journeyData.courier_company}\n📋 Tracking Number: ${bookingRef}\n\n📍 NEXT STEP - DROP OFF YOUR PARCEL:\nPlease take your parcel to:\n${pickupLocationName}\n\n✅ Your parcel is booked for collection at this pickup point and will be delivered to:\n${deliveryLocationName}\n\n📱 Scan this QR code again to view the courier dashboard and track your parcel.`);
+      } else {
+        alert(`🎉 PARCEL JOURNEY BOOKED SUCCESSFULLY!\n\n📦 Bag ID: ${checkoutData.bagId}\n🏢 Courier: ${journeyData.courier_company}\n📋 Tracking Number: ${bookingRef}\n\n📍 NEXT STEP - DROP OFF YOUR PARCEL:\nPlease take your parcel to:\n${pickupLocationName}\n\n✅ Your parcel is booked for collection at this pickup point and will be delivered to:\n${deliveryLocationName}`);
+      }
+      
+    } catch (error) {
+      console.error('Error processing payment success:', error);
+      alert('Error completing parcel journey. Please contact support.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Create booking with Dropper Group
   const createBookingWithDropper = async (journey: ParcelJourney, selectedQuote: DropperQuote): Promise<DropperBookingResponse | null> => {
     console.log('🔍 Selected Quote for Booking:', JSON.stringify(selectedQuote, null, 2));
@@ -746,6 +925,36 @@ export const ParcelTracker = () => {
     const randomId = 'SP' + Math.random().toString(36).substr(2, 6).toUpperCase();
     console.log('Generated random bag ID:', randomId);
     return randomId;
+  };
+
+  // Handle checkout navigation
+  const handleCheckout = () => {
+    const bagId = generateBagId();
+    
+    // Save journey data to localStorage for checkout page
+    const checkoutData = {
+      bagId,
+      customerName,
+      customerPhone,
+      customerEmail,
+      customerIdNumber,
+      recipientName,
+      recipientPhone,
+      recipientEmail,
+      fromLocation,
+      toLocation,
+      parcelSize,
+      numberOfBoxes,
+      specialInstructions,
+      selectedQuote: localQuoteSelection,
+      currentQRCode
+    };
+    
+    localStorage.setItem('pendingCheckout', JSON.stringify(checkoutData));
+    console.log('✅ Saved checkout data to localStorage:', checkoutData);
+    
+    // Navigate to checkout page
+    window.location.href = '/checkout';
   };
 
   // Handle form submission
@@ -1759,24 +1968,26 @@ export const ParcelTracker = () => {
 
                   <div className="relative">
                     <Button
-                      type="submit"
-                      disabled={isSubmitting}
+                      type="button"
+                      onClick={handleCheckout}
+                      disabled={isSubmitting || !localQuoteSelection}
                       className="button-primary w-full text-lg py-4"
                     >
                       {isSubmitting ? (
                         <div className="flex items-center space-x-2">
                           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                          <span>Creating Parcel Journey...</span>
+                          <span>Processing Payment...</span>
                         </div>
                       ) : (
-                        'Create Parcel Journey'
+                        'Proceed to Checkout'
                       )}
                     </Button>
                     
                     {/* Floating Action Button */}
                     <button
-                      type="submit"
-                      disabled={isSubmitting}
+                      type="button"
+                      onClick={handleCheckout}
+                      disabled={isSubmitting || !localQuoteSelection}
                       className="absolute -top-16 right-0 w-14 h-14 bg-[#FF5823] hover:bg-[#FF6B35] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
                     >
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -10,6 +10,7 @@ import { FAQ } from "./components/FAQ";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { SparcelPoints } from "./components/SparcelPoints";
 import { AdminPortal } from "./components/AdminPortal";
+import { Checkout } from "./components/Checkout";
 import "./App.css";
 
 export default function App() {
@@ -20,6 +21,10 @@ export default function App() {
 
   if (window.location.pathname === '/admin') {
     return <AdminPortal />;
+  }
+
+  if (window.location.pathname === '/checkout') {
+    return <Checkout />;
   }
 
   // Default main site
